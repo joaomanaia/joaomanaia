@@ -16,3 +16,5 @@
 
 #### Github Stats
 ![Joaomanaia's GitHub stats](https://github-readme-stats.vercel.app/api?username=joaomanaia&count_private=true&theme=tokyonight&hide=contribs,prs)
+
+![Commit Snake Animation](https://github.com/joaomanaia/joaomanaia/blob/output/github-snake.svg)
