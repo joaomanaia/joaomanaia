@@ -1,6 +1,6 @@
 ## Hi there I'm joaomanaia 👋
 
-- 🔭 I’m currently working at NewSocial and NewQuiz
+- 🔭 I’m currently working at NewSocial, NewQuiz and [Fega](https://www.fega.ml)
 - 🌱 I’m currently learning Kotlin and React
 - 📫 How to reach me: joaopfmanaia@gmail.com
 - ⚡ Fun fact: I like programming
@@ -16,13 +16,3 @@
 
 #### Github Stats
 ![Joaomanaia's GitHub stats](https://github-readme-stats.vercel.app/api?username=joaomanaia&count_private=true&theme=tokyonight&hide=contribs,prs)
-
-<!--START_SECTION:waka-->
-```text
-TypeScript   9 hrs 15 mins   ██████████▒░░░░░░░░░░░░░░   41.34 % 
-Kotlin       9 hrs 4 mins    ██████████░░░░░░░░░░░░░░░   40.49 % 
-Dart         1 hr 3 mins     █▒░░░░░░░░░░░░░░░░░░░░░░░   04.76 % 
-Groovy       40 mins         ▓░░░░░░░░░░░░░░░░░░░░░░░░   02.98 % 
-CSS          36 mins         ▓░░░░░░░░░░░░░░░░░░░░░░░░   02.70 % 
-```
-<!--END_SECTION:waka-->
