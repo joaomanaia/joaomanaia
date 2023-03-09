@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .clip-hexagon {
+    /* 90% and 10% left and right padding */
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  }
+
+  .animate-spin-slower {
+    animation: spin 30s linear infinite;
+  }
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
