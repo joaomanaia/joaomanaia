@@ -1,6 +1,7 @@
 import { TanStackDevtools } from "@tanstack/react-devtools"
 import { createRootRoute, HeadContent, Scripts } from "@tanstack/react-router"
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools"
+import { ThemeProvider } from "@/components/theme-provider"
 import appCss from "../styles.css?url"
 
 export const Route = createRootRoute({
@@ -15,6 +16,8 @@ export const Route = createRootRoute({
       },
       {
         title: "Joaomanaia",
+        description:
+          "Mobile developer from Portugal specializing in Android, Kotlin, and Jetpack Compose",
       },
     ],
     links: [
@@ -35,7 +38,10 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body>
-        {children}
+        <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+          {children}
+        </ThemeProvider>
+
         <TanStackDevtools
           config={{
             position: "bottom-right",
