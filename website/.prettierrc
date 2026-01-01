@@ -25,12 +25,10 @@
     "^react$",
     "^next/(.*)$",
     "<THIRD_PARTY_MODULES>",
+    "^.*\\.css(\\?.*)?$",
     "^@/components/ui/(.*)$",
     "^@/(.*)$",
     "^[./]"
   ],
-  "plugins": [
-    "@ianvs/prettier-plugin-sort-imports",
-    "prettier-plugin-tailwindcss"
-  ]
+  "plugins": ["@ianvs/prettier-plugin-sort-imports", "prettier-plugin-tailwindcss"]
 }

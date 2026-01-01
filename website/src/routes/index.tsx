@@ -8,7 +8,7 @@ export const Route = createFileRoute("/")({ component: App })
 
 function App() {
   return (
-    <main className="bg-background text-foreground min-h-screen">
+    <main className="relative min-h-screen">
       <HeroSection />
       <Separator />
       <AboutSection />
@@ -16,6 +16,7 @@ function App() {
       <ProjectsSection />
       <Separator />
       <Footer />
+      <VerticalDividerLines />
     </main>
   )
 }
@@ -76,5 +77,11 @@ function Footer() {
         © 2025 João Manaia. All rights reserved.
       </p>
     </footer>
+  )
+}
+
+function VerticalDividerLines() {
+  return (
+    <div className="absolute top-0 left-1/2 -z-10 h-full w-full max-w-6xl -translate-x-1/2 transform border-r border-l bg-transparent px-6 py-16" />
   )
 }

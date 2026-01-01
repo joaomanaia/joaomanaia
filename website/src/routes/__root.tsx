@@ -1,8 +1,8 @@
 import { TanStackDevtools } from "@tanstack/react-devtools"
 import { createRootRoute, HeadContent, Scripts } from "@tanstack/react-router"
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools"
-import { ThemeProvider } from "@/components/theme-provider"
 import appCss from "../styles.css?url"
+import { ThemeProvider } from "@/components/theme-provider"
 
 export const Route = createRootRoute({
   head: () => ({
@@ -37,7 +37,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       <head>
         <HeadContent />
       </head>
-      <body>
+      <body className="bg-background text-foreground">
         <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
           {children}
         </ThemeProvider>
