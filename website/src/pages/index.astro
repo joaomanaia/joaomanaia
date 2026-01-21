@@ -1,43 +1,24 @@
 ---
-import "../styles/global.css"
 import Hero from "@/components/sections/hero.astro"
 import About from "@/components/sections/about.astro"
 import { Separator } from "@/components/ui/separator"
 import Projects from "@/components/sections/projects.astro"
 import Footer from "@/components/sections/footer.astro"
+import Layout from "@/layouts/Layout.astro"
 ---
 
-<script is:inline>
-  const getThemePreference = () => {
-    if (typeof localStorage !== "undefined" && localStorage.getItem("theme")) {
-      return localStorage.getItem("theme")
-    }
-    return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
-  }
-  const isDark = getThemePreference() === "dark"
-  document.documentElement.classList[isDark ? "add" : "remove"]("dark")
-
-  if (typeof localStorage !== "undefined") {
-    const observer = new MutationObserver(() => {
-      const isDark = document.documentElement.classList.contains("dark")
-      localStorage.setItem("theme", isDark ? "dark" : "light")
-    })
-    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] })
-  }
-</script>
-
-<meta charset="UTF-8" />
-
-<main class="relative min-h-screen">
-  <Hero />
-  <Separator />
-  <About />
-  <Separator />
-  <Projects />
-  <Separator />
-  <Footer />
-  <div
-    class="absolute top-0 left-1/2 -z-10 h-full w-full max-w-6xl -translate-x-1/2 transform border-r border-l bg-transparent px-6 py-16"
-  >
-  </div>
-</main>
+<Layout>
+  <main class="relative min-h-screen">
+    <Hero />
+    <Separator />
+    <About />
+    <Separator />
+    <Projects />
+    <Separator />
+    <Footer />
+    <div
+      class="absolute top-0 left-1/2 -z-10 h-full w-full max-w-6xl -translate-x-1/2 transform border-r border-l bg-transparent px-6 py-16"
+    >
+    </div>
+  </main>
+</Layout>
