@@ -1,0 +1,31 @@
+---
+import { GithubIcon } from "lucide-react"
+import { buttonVariants } from "../ui/button"
+---
+
+<section class="container mx-auto max-w-4xl px-6 py-16 md:py-24 lg:py-32 xl:py-40">
+  <h1
+    class="text-foreground mb-4 font-mono text-5xl font-bold tracking-tight md:text-6xl lg:text-7xl"
+  >
+    João Manaia
+  </h1>
+
+  <p class="text-muted-foreground mb-2 font-mono text-xl md:text-2xl">Mobile and Web Developer</p>
+
+  <p class="text-muted-foreground mb-10 max-w-2xl text-lg leading-relaxed">
+    Building native Android applications with Kotlin and Jetpack Compose, and crafting web
+    experiences using React, TypeScript, and Tailwind CSS.
+  </p>
+
+  <div class="flex flex-wrap items-center gap-4">
+    <a
+      href="https://github.com/joaomanaia"
+      target="_blank"
+      rel="noopener noreferrer"
+      class={buttonVariants({ variant: "secondary", size: "lg" })}
+    >
+      <GithubIcon />
+      GitHub
+    </a>
+  </div>
+</section>
