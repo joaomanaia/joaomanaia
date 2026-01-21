@@ -1,35 +1,3 @@
-# Dependencies
-node_modules
-
-# Build output
-.output
-dist
-
-# Development files
-.git
-.gitignore
-*.md
-.env*
-!.env.example
-
-# IDE
-.vscode
-.idea
-*.swp
-*.swo
-
-# OS files
 .DS_Store
-Thumbs.db
-
-# Test files
-coverage
-*.test.ts
-*.test.tsx
-*.spec.ts
-*.spec.tsx
-
-# Docker
-Dockerfile
-.dockerignore
-docker-compose*.yml
+node_modules
+dist
