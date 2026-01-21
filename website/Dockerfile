@@ -1,14 +1,14 @@
-FROM oven/bun:1-alpine AS base
+FROM node:20-alpine AS base
 WORKDIR /app
 
 COPY package.json bun.lock ./
 
 FROM base AS build-deps
-RUN bun install
+RUN npm install
 
 FROM build-deps AS build
 COPY . .
-RUN bun run build
+RUN npm run build
 
 FROM nginx:alpine AS runtime
 COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
