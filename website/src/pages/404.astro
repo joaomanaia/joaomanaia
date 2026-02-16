@@ -1,0 +1,19 @@
+---
+import Layout from "@/layouts/Layout.astro"
+import { Empty, EmptyDescription, EmptyHeader, EmptyTitle } from "@/components/ui/empty"
+---
+
+<Layout>
+  <div class="flex h-screen flex-col items-center justify-center">
+    <Empty className="my-0 h-fit border-y border-solid md:my-24 lg:my-32 xl:my-40">
+      <EmptyHeader>
+        <EmptyTitle>404 - Not Found</EmptyTitle>
+        <EmptyDescription> The page you&apos;re looking for doesn&apos;t exist. </EmptyDescription>
+      </EmptyHeader>
+    </Empty>
+  </div>
+  <div
+    class="absolute top-0 left-1/2 -z-10 h-full w-full max-w-6xl -translate-x-1/2 transform border-r border-l bg-transparent px-6 py-16"
+  >
+  </div>
+</Layout>
