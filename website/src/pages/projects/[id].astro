@@ -1,0 +1,58 @@
+---
+import { getCollection, render } from "astro:content"
+import Layout from "../../layouts/Layout.astro"
+import { Badge } from "../../components/ui/badge"
+import { ArrowLeftIcon, ExternalLinkIcon } from "lucide-react"
+import { Button, buttonVariants } from "@/components/ui/button"
+import Header from "@/components/header.astro"
+import { Separator } from "@/components/ui/separator"
+
+export async function getStaticPaths() {
+  const projects = await getCollection("projects")
+  return projects.map((project) => ({
+    params: { id: project.id },
+    props: { project },
+  }))
+}
+
+const { project } = Astro.props
+const { Content } = await render(project)
+---
+
+<Layout>
+  <main class="relative grow">
+    <header class="container mx-auto max-w-4xl px-6 pt-16 pb-12 md:pt-24 lg:pt-32 xl:pt-40">
+      <h1 class="text-foreground mb-4 text-center font-mono text-4xl font-bold md:text-5xl">
+        {project.data.title}
+      </h1>
+
+      <p class="text-muted-foreground text-center text-xl leading-relaxed">
+        {project.data.description}
+      </p>
+
+      <div class="mt-6 mb-4 flex flex-wrap justify-center gap-2">
+        {project.data.tech.map((tech) => <Badge variant="secondary">{tech}</Badge>)}
+      </div>
+
+      <div class="mt-6 flex flex-wrap justify-center gap-4">
+        {
+          project.data.links.map((link) => (
+            <a
+              href={link.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class={buttonVariants({ variant: link.variant })}
+            >
+              <ExternalLinkIcon />
+              {link.name}
+            </a>
+          ))
+        }
+      </div>
+    </header>
+    <Separator />
+    <div class="prose prose-invert prose-pre:bg-muted/50 container mx-auto max-w-4xl px-6 py-12">
+      <Content />
+    </div>
+  </main>
+</Layout>
