@@ -1,52 +1,31 @@
 ---
 import { buttonVariants } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
+
+const navLinks = [
+  { id: "home", href: "/#home", label: "Home" },
+  { id: "about", href: "/#about", label: "About" },
+  { id: "projects", href: "/#projects", label: "Projects" },
+]
 ---
 
 <header class="bg-background sticky top-0 z-50 border-b">
   <nav class="container mx-auto flex items-center justify-center">
-    <a
-      href="/#home"
-      data-nav-link="home"
-      class={cn(
-        buttonVariants({ variant: "ghost", size: "lg" }),
-        "relative h-14 rounded-none px-6 transition-colors hover:bg-transparent"
-      )}
-    >
-      Home
-      <div
-        class="active-indicator bg-primary absolute bottom-0 left-0 h-0.5 w-full scale-x-0 transition-transform duration-300"
-      >
-      </div>
-    </a>
-    <a
-      href="/#about"
-      data-nav-link="about"
-      class={cn(
-        buttonVariants({ variant: "ghost", size: "lg" }),
-        "relative h-14 rounded-none px-6 transition-colors hover:bg-transparent"
-      )}
-    >
-      About
-      <div
-        class="active-indicator bg-primary absolute bottom-0 left-0 h-0.5 w-full scale-x-0 transition-transform duration-300"
-      >
-      </div>
-    </a>
-    <a
-      href="/#projects"
-      data-nav-link="projects"
-      class={cn(
-        buttonVariants({ variant: "ghost", size: "lg" }),
-        "relative h-14 rounded-none px-6 transition-colors hover:bg-transparent"
-      )}
-    >
-      Projects
-      <div
-        class="active-indicator bg-primary absolute bottom-0 left-0 h-0.5 w-full scale-x-0 transition-transform duration-300"
-      >
-      </div>
-    </a>
+    {
+      navLinks.map(({ id, href, label }) => (
+        <a
+          href={href}
+          data-nav-link={id}
+          class={cn(
+            buttonVariants({ variant: "ghost", size: "lg" }),
+            "relative h-14 rounded-none px-6 transition-colors hover:bg-transparent"
+          )}
+        >
+          {label}
+          <div class="active-indicator bg-primary absolute bottom-0 left-0 h-0.5 w-full scale-x-0 transition-transform duration-300" />
+        </a>
+      ))
+    }
   </nav>
 </header>
 
@@ -62,71 +41,44 @@ import { cn } from "@/lib/utils"
 </style>
 
 <script>
-  const updateActiveLink = () => {
-    const navLinks = document.querySelectorAll("[data-nav-link]")
-    const path = window.location.pathname
-    const hash = window.location.hash
+  const getNavLinks = () => Array.from(document.querySelectorAll("[data-nav-link]"))
 
-    // Default to removing active class
-    navLinks.forEach((link) => link.classList.remove("nav-active"))
-
-    if (path.startsWith("/projects/")) {
-      document.querySelector('[data-nav-link="projects"]')?.classList.add("nav-active")
-      return
-    }
-
-    if (path === "/" && !hash) {
-      document.querySelector('[data-nav-link="home"]')?.classList.add("nav-active")
-    } else if (hash) {
-      const activeLink = document.querySelector(`[data-nav-link="${hash.slice(1)}"]`)
-      if (activeLink) {
-        activeLink.classList.add("nav-active")
-      }
-    }
-  }
-
-  // Intersection Observer for scroll tracking on home page
-  const observerOptions = {
-    root: null,
-    rootMargin: "-50% 0px -50% 0px",
-    threshold: 0,
-  }
-
-  const observerCallback = (entries: IntersectionObserverEntry[]) => {
-    if (window.location.pathname !== "/") return
-
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        const id = entry.target.id
-        const navLinks = document.querySelectorAll("[data-nav-link]")
-        navLinks.forEach((link) => link.classList.remove("nav-active"))
-
-        const activeId = id === "home" ? "home" : id
-        const activeLink = document.querySelector(`[data-nav-link="${activeId}"]`)
-        if (activeLink) {
-          activeLink.classList.add("nav-active")
-        }
-      }
+  const updateActiveLink = (links: Element[], id: string | null) => {
+    links.forEach((link) => {
+      link.classList.toggle("nav-active", link.getAttribute("data-nav-link") === id)
     })
   }
 
-  const initObserver = () => {
-    const observer = new IntersectionObserver(observerCallback, observerOptions)
-    const sections = ["home", "about", "projects"]
-    sections.forEach((id) => {
-      const element = document.getElementById(id)
-      if (element) observer.observe(element)
+  const handleNavigation = (links: Element[] = getNavLinks()) => {
+    const { pathname, hash } = window.location
+    if (pathname.startsWith("/projects/")) return updateActiveLink(links, "projects")
+    updateActiveLink(links, hash ? hash.slice(1) : pathname === "/" ? "home" : null)
+  }
+
+  let observer: IntersectionObserver | null = null
+
+  const init = () => {
+    const links = getNavLinks()
+
+    observer?.disconnect()
+    observer = new IntersectionObserver(
+      (entries) => {
+        if (window.location.pathname !== "/") return
+        const activeEntry = entries.find((e) => e.isIntersecting)
+        if (activeEntry) updateActiveLink(links, activeEntry.target.id)
+      },
+      { rootMargin: "-50% 0px -50% 0px" }
+    )
+
+    handleNavigation(links)
+    links.forEach((link) => {
+      const id = link.getAttribute("data-nav-link")
+      const el = id ? document.getElementById(id) : null
+      if (el && observer) observer.observe(el)
     })
   }
 
-  // Initialize
-  updateActiveLink()
-  initObserver()
-
-  // Listen for hash changes and navigation
-  window.addEventListener("hashchange", updateActiveLink)
-  document.addEventListener("astro:after-navigation", () => {
-    updateActiveLink()
-    initObserver()
-  })
+  init()
+  window.addEventListener("hashchange", () => handleNavigation())
+  document.addEventListener("astro:after-navigation", init)
 </script>
