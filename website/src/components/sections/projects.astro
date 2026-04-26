@@ -4,13 +4,22 @@ import { Badge } from "../ui/badge"
 import { getCollection } from "astro:content"
 
 const projects = await getCollection("projects")
+
+const orderedProjects = [...projects].sort((a, b) => {
+  const aOrder = a.data.order ?? Number.MAX_SAFE_INTEGER
+  const bOrder = b.data.order ?? Number.MAX_SAFE_INTEGER
+
+  if (aOrder !== bOrder) return aOrder - bOrder
+
+  return a.id.localeCompare(b.id)
+})
 ---
 
 <section id="projects" class="container mx-auto max-w-4xl px-6 py-16 md:py-24 lg:py-32 xl:py-40">
   <h2 class="text-foreground mb-10 font-mono text-3xl font-bold">Projects</h2>
   <div class="space-y-6">
     {
-      projects.map((project) => (
+      orderedProjects.map((project) => (
         <a
           href={`/projects/${project.id}`}
           class="group border-border bg-card hover:border-muted-foreground hover:bg-accent block rounded-lg border p-6 transition-all"

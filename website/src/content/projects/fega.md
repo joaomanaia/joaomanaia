@@ -1,6 +1,7 @@
 ---
 title: Fega
 description: Next.js social network app with real-time chat, posts, and user profiles.
+order: 2
 tech: ["Next.js", "Tailwind CSS", "Supabase"]
 links:
   [
