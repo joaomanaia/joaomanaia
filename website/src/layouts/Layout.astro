@@ -14,38 +14,38 @@ import Footer from "@/components/footer.astro"
     <meta name="generator" content={Astro.generator} />
     <title>João Manaia</title>
   </head>
-  <div class="relative flex min-h-screen flex-col">
-    <VerticalDivider />
-    <Header />
-    <slot />
-    <Footer />
-  </div>
-
-  <script is:inline>
-    const getThemePreference = () => {
-      if (typeof localStorage !== "undefined" && localStorage.getItem("theme")) {
-        return localStorage.getItem("theme")
-      }
-      return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
-    }
-    const isDark = getThemePreference() === "dark"
-    document.documentElement.classList[isDark ? "add" : "remove"]("dark")
-
-    if (typeof localStorage !== "undefined") {
-      const observer = new MutationObserver(() => {
-        const isDark = document.documentElement.classList.contains("dark")
-        localStorage.setItem("theme", isDark ? "dark" : "light")
-      })
-      observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] })
-    }
-  </script><style>
-    html,
-    body {
-      margin: 0;
-      width: 100%;
-      min-height: 100%;
-    }
-  </style>
-
-
+  <body>
+    <div class="relative flex min-h-screen flex-col">
+      <VerticalDivider />
+      <Header />
+      <slot />
+      <Footer />
+    </div>
+  </body>
 </html>
+
+<script is:inline>
+  const getThemePreference = () => {
+    if (typeof localStorage !== "undefined" && localStorage.getItem("theme")) {
+      return localStorage.getItem("theme")
+    }
+    return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
+  }
+  const isDark = getThemePreference() === "dark"
+  document.documentElement.classList[isDark ? "add" : "remove"]("dark")
+
+  if (typeof localStorage !== "undefined") {
+    const observer = new MutationObserver(() => {
+      const isDark = document.documentElement.classList.contains("dark")
+      localStorage.setItem("theme", isDark ? "dark" : "light")
+    })
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] })
+  }
+</script><style>
+  html,
+  body {
+    margin: 0;
+    width: 100%;
+    min-height: 100%;
+  }
+</style>
