@@ -5,14 +5,16 @@ import { getCollection } from "astro:content"
 
 const projects = await getCollection("projects")
 
-const orderedProjects = [...projects].sort((a, b) => {
-  const aOrder = a.data.order ?? Number.MAX_SAFE_INTEGER
-  const bOrder = b.data.order ?? Number.MAX_SAFE_INTEGER
+const orderedProjects = projects
+  .filter((project) => project.data.featured)
+  .sort((a, b) => {
+    const aOrder = a.data.order ?? Number.MAX_SAFE_INTEGER
+    const bOrder = b.data.order ?? Number.MAX_SAFE_INTEGER
 
-  if (aOrder !== bOrder) return aOrder - bOrder
+    if (aOrder !== bOrder) return aOrder - bOrder
 
-  return a.id.localeCompare(b.id)
-})
+    return a.id.localeCompare(b.id)
+  })
 ---
 
 <section id="projects" class="container mx-auto max-w-4xl px-6 py-16 md:py-24 lg:py-32 xl:py-40">

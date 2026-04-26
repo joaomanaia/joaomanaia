@@ -1,10 +1,9 @@
 ---
-import { getCollection, render } from "astro:content"
+import { getCollection, render, getEntries } from "astro:content"
 import Layout from "../../layouts/Layout.astro"
 import { Badge } from "../../components/ui/badge"
-import { ArrowLeftIcon, ExternalLinkIcon } from "lucide-react"
-import { Button, buttonVariants } from "@/components/ui/button"
-import Header from "@/components/header.astro"
+import { ExternalLinkIcon } from "lucide-react"
+import { buttonVariants } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 
 export async function getStaticPaths() {
@@ -17,6 +16,8 @@ export async function getStaticPaths() {
 
 const { project } = Astro.props
 const { Content } = await render(project)
+const hasContent = (project.body ?? "").trim().length > 0
+const relatedProjects = project.data.related ? await getEntries(project.data.related) : []
 ---
 
 <Layout>
@@ -50,9 +51,57 @@ const { Content } = await render(project)
         }
       </div>
     </header>
-    <Separator />
-    <div class="prose prose-invert prose-pre:bg-muted/50 container mx-auto max-w-4xl px-6 py-12">
-      <Content />
-    </div>
+
+    {
+      hasContent && (
+        <>
+          <Separator />
+          <div class="prose prose-invert prose-pre:bg-muted/50 container mx-auto max-w-4xl px-6 py-12">
+            <Content />
+          </div>
+        </>
+      )
+    }
+    {
+      relatedProjects.length > 0 && (
+        <>
+          <Separator />
+          <div class="not-prose container mx-auto max-w-4xl px-6 py-12">
+            <h2 class="text-foreground mb-8 flex items-center gap-2 font-mono text-2xl font-bold">
+              Related Projects
+            </h2>
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              {relatedProjects.map((related) => (
+                <a
+                  href={`/projects/${related.id}`}
+                  class="group border-border bg-card hover:border-muted-foreground hover:bg-accent flex flex-col rounded-xl border p-5 transition-all duration-300"
+                >
+                  <div class="mb-2 flex items-center justify-between">
+                    <h3 class="text-card-foreground group-hover:text-accent-foreground font-mono text-lg font-semibold">
+                      {related.data.title}
+                    </h3>
+                  </div>
+                  <p class="text-muted-foreground line-clamp-2 text-sm leading-relaxed italic">
+                    {related.data.description}
+                  </p>
+                  <div class="mt-4 flex flex-wrap gap-1.5">
+                    {related.data.tech.slice(0, 3).map((t) => (
+                      <span class="text-muted-foreground/60 text-[10px] font-medium tracking-wider uppercase">
+                        {t}
+                      </span>
+                    ))}
+                    {related.data.tech.length > 3 && (
+                      <span class="text-muted-foreground/60 text-[10px] font-medium tracking-wider uppercase">
+                        +{related.data.tech.length - 3}
+                      </span>
+                    )}
+                  </div>
+                </a>
+              ))}
+            </div>
+          </div>
+        </>
+      )
+    }
   </main>
 </Layout>
