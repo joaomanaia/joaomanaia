@@ -3,10 +3,7 @@
 @import "tw-animate-css";
 
 /* Prevent accidental horizontal overflow from creating a page-level scrollbar */
-html,
-body {
-  overflow-x: hidden;
-}
+/* Removed global overflow-x:hidden because it interferes with `position: sticky` on children (header). */
 
 @custom-variant dark (&:is(.dark *));
 
