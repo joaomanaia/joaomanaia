@@ -2,6 +2,12 @@
 @plugin "@tailwindcss/typography";
 @import "tw-animate-css";
 
+/* Prevent accidental horizontal overflow from creating a page-level scrollbar */
+html,
+body {
+  overflow-x: hidden;
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
