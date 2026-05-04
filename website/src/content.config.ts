@@ -14,8 +14,6 @@ const projects = defineCollection({
     updatedAt: z.coerce.date().optional(),
     // Tags can be omitted or empty
     tags: z.array(z.string()).default([]),
-    // Keep for backwards-compatibility with existing content (can be removed later)
-    order: z.number().int().positive().optional(),
     featured: z.boolean().default(true),
     related: z.array(reference("projects")).default([]),
     links: z

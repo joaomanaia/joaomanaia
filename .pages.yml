@@ -1,0 +1,116 @@
+media:
+  input: website/src/assets
+  output: /src/assets
+
+content:
+  - name: projects
+    label: Projects
+    type: collection
+    path: website/src/content/projects
+    format: yaml-frontmatter
+    subfolders: true
+
+    # Filename template for new entries
+    filename: "{primary}.md"
+
+    # Per-collection operations
+    operations:
+      create: true
+      delete: true
+      rename: true
+
+    # Collection list UI
+    view:
+      primary: title
+      sort: createdAt
+      order: desc
+      search: "title,description,tags"
+
+    # Default values for new entries (kept minimal; Astro schema supplies defaults too)
+    default:
+      priority: 0
+      tags: []
+      featured: true
+      related: []
+      links: []
+
+    fields:
+      - name: title
+        label: Title
+        type: string
+        required: true
+
+      - name: description
+        label: Description
+        type: text
+        required: true
+
+      - name: priority
+        label: Priority
+        type: number
+        min: 0
+        step: 1
+        default: 0
+        help: Higher priority floats to the top.
+
+      - name: createdAt
+        label: Created at
+        type: datetime
+        required: true
+
+      - name: updatedAt
+        label: Updated at
+        type: datetime
+        required: false
+
+      - name: tags
+        label: Tags
+        type: list
+        required: false
+        items:
+          type: string
+
+      - name: featured
+        label: Featured
+        type: boolean
+        default: true
+
+      - name: related
+        label: Related projects
+        type: reference
+        required: false
+        options:
+          collection: projects
+          multiple: true
+          search: "title,description,tags"
+          # Store the referenced entry as its slug (filename without extension)
+          value: "{name}"
+          label: "{primary}"
+
+      - name: links
+        label: Links
+        type: list
+        required: false
+        items:
+          type: object
+          fields:
+            - name: name
+              label: Name
+              type: string
+              required: true
+            - name: url
+              label: URL
+              type: string
+              required: true
+            - name: variant
+              label: Variant
+              type: select
+              required: false
+              default: default
+              options:
+                - default
+                - outline
+                - secondary
+                - ghost
+                - destructive
+                - link
