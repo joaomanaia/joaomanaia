@@ -8,9 +8,19 @@ const projects = await getCollection("projects")
 const orderedProjects = projects
   .filter((project) => project.data.featured)
   .sort((a, b) => {
+    // 1) Highest priority first
+    const ap = a.data.priority ?? 0
+    const bp = b.data.priority ?? 0
+    if (bp !== ap) return bp - ap
+
+    // 2) Newest updatedAt/createdAt first (if present)
+    const aTime = (a.data.updatedAt ?? a.data.createdAt)?.getTime() ?? -Infinity
+    const bTime = (b.data.updatedAt ?? b.data.createdAt)?.getTime() ?? -Infinity
+    if (bTime !== aTime) return bTime - aTime
+
+    // 3) Fallback: old manual order (ascending) if still present
     const aOrder = a.data.order ?? Number.MAX_SAFE_INTEGER
     const bOrder = b.data.order ?? Number.MAX_SAFE_INTEGER
-
     if (aOrder !== bOrder) return aOrder - bOrder
 
     return a.id.localeCompare(b.id)
@@ -36,13 +46,13 @@ const orderedProjects = projects
             {project.data.description}
           </p>
           <div class="flex flex-wrap gap-2">
-            {project.data.tech.map((tech) => (
+            {project.data.tags.map((tag) => (
               <Badge
                 variant="secondary"
                 className="border-border bg-muted text-muted-foreground group-hover:bg-accent-foreground/10 group-hover:text-accent-foreground transition-colors"
-                key={tech}
+                key={tag}
               >
-                {tech}
+                {tag}
               </Badge>
             ))}
           </div>

@@ -1,8 +1,10 @@
 ---
 title: NewQuiz
 description: Jetpack Compose quiz game with modern Material 3 design and MVVM architecture.
-order: 1
-tech: ["Kotlin", "Jetpack Compose", "Material 3", "MVVM"]
+priority: 100
+createdAt: 2021-02-15
+updatedAt: 2024-10-01
+tags: ["Kotlin", "Jetpack Compose", "Material 3", "MVVM"]
 related: ["newquiz-web"]
 links:
   [

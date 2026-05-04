@@ -1,8 +1,8 @@
 ---
 title: NewQuiz Web
 description: Web version of NewQuiz, featuring multi-choice, trivia, and Wordle-style games.
-order: 2
-tech: ["Next.js", "React", "Tailwind CSS", "Hono", "Firebase", "TypeScript"]
+createdAt: 2023-01-01
+tags: ["Next.js", "React", "Tailwind CSS", "Hono", "Firebase", "TypeScript"]
 featured: false
 related: ["newquiz"]
 links:
