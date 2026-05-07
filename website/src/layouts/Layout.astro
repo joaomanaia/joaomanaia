@@ -1,8 +1,38 @@
 ---
+import { SEO } from "astro-seo"
 import Header from "@/components/header.astro"
 import VerticalDivider from "@/components/vertical-divider.astro"
 import "../styles/global.css"
 import Footer from "@/components/footer.astro"
+
+interface Props {
+  title?: string
+  description?: string
+  openGraph?: {
+    basic: {
+      title: string
+      type: string
+      image: string
+      url?: string
+    }
+    optional?: {
+      description?: string
+      siteName?: string
+      locale?: string
+    }
+  }
+  twitter?: {
+    card?: "summary" | "summary_large_image" | "app" | "player"
+    site?: string
+    creator?: string
+    title?: string
+    description?: string
+    image?: string | URL
+    imageAlt?: string
+  }
+}
+
+const { title = "João Manaia", description, openGraph, twitter } = Astro.props as Props
 ---
 
 <!doctype html>
@@ -11,8 +41,7 @@ import Footer from "@/components/footer.astro"
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="generator" content={Astro.generator} />
-    <title>João Manaia</title>
+    <SEO title={title} description={description} openGraph={openGraph} twitter={twitter} />
   </head>
   <body>
     <div class="relative flex min-h-screen flex-col">

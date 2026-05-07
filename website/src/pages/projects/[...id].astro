@@ -20,7 +20,7 @@ const hasContent = (project.body ?? "").trim().length > 0
 const relatedProjects = project.data.related ? await getEntries(project.data.related) : []
 ---
 
-<Layout>
+<Layout title={project.data.title} description={project.data.description}>
   <main class="relative grow">
     <header class="container mx-auto max-w-4xl px-6 pt-16 pb-12 md:pt-24 lg:pt-32 xl:pt-40">
       <h1 class="text-foreground mb-4 text-center font-mono text-4xl font-bold md:text-5xl">
