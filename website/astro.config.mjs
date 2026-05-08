@@ -6,6 +6,7 @@ import react from "@astrojs/react"
 
 import icon from "astro-icon"
 import sitemap from "@astrojs/sitemap"
+import partytown from "@astrojs/partytown"
 
 // https://astro.build/config
 export default defineConfig({
@@ -14,5 +15,5 @@ export default defineConfig({
     plugins: [tailwindcss()],
   },
 
-  integrations: [react(), icon(), sitemap()],
+  integrations: [react(), icon(), sitemap(), partytown()],
 })

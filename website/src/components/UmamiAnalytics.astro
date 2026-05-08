@@ -1,0 +1,20 @@
+---
+const scriptUrl = import.meta.env.UMAMI_SCRIPT_URL || "/stats.js"
+const websiteId = import.meta.env.UMAMI_WEBSITE_ID
+
+// Only render if website ID is provided
+const isConfigured = websiteId
+---
+
+{
+  isConfigured ? (
+    <script
+      define:vars={{ scriptUrl, websiteId }}
+      defer
+      src={scriptUrl}
+      data-website-id={websiteId}
+      is:inline
+      type="text/partytown"
+    />
+  ) : null
+}

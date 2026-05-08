@@ -2,6 +2,7 @@
 import { SEO } from "astro-seo"
 import Header from "@/components/header.astro"
 import VerticalDivider from "@/components/vertical-divider.astro"
+import UmamiAnalytics from "@/components/UmamiAnalytics.astro"
 import "../styles/global.css"
 import Footer from "@/components/footer.astro"
 
@@ -42,6 +43,7 @@ const { title = "João Manaia", description, openGraph, twitter } = Astro.props 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <SEO title={title} description={description} openGraph={openGraph} twitter={twitter} />
+    <UmamiAnalytics />
   </head>
   <body>
     <div class="relative flex min-h-screen flex-col">
