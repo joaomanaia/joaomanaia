@@ -1,6 +1,15 @@
 ---
 import { Icon } from "astro-icon/components"
 import { buttonVariants } from "../ui/button"
+
+const heroLinks = [
+  { name: "GitHub", url: "https://github.com/joaomanaia", icon: "github" },
+  {
+    name: "Instagram",
+    url: "https://www.instagram.com/_.manaia_/",
+    icon: "instagram",
+  },
+]
 ---
 
 <section id="home" class="container mx-auto max-w-4xl px-6 py-16 md:py-24 lg:py-32 xl:py-40">
@@ -18,14 +27,18 @@ import { buttonVariants } from "../ui/button"
   </p>
 
   <div class="flex flex-wrap items-center gap-4">
-    <a
-      href="https://github.com/joaomanaia"
-      target="_blank"
-      rel="noopener noreferrer"
-      class={buttonVariants({ variant: "secondary", size: "lg" })}
-    >
-      <Icon name="github" />
-      GitHub
-    </a>
+    {
+      heroLinks.map((link) => (
+        <a
+          href={link.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          class={buttonVariants({ variant: "secondary", size: "lg" })}
+        >
+          <Icon name={link.icon} />
+          {link.name}
+        </a>
+      ))
+    }
   </div>
 </section>
