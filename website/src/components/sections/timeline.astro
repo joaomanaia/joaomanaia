@@ -1,0 +1,48 @@
+---
+import { getCollection } from "astro:content"
+
+const timelineEntries = await getCollection("timeline")
+
+const sortedEntries = timelineEntries.sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0))
+---
+
+<section id="timeline" class="container mx-auto max-w-4xl px-6 py-16 md:py-24 lg:py-32 xl:py-40">
+  <div class="mb-10">
+    <h2 class="text-foreground font-mono text-3xl font-bold">Timeline</h2>
+    <p class="text-muted-foreground mt-2 text-base md:text-lg">
+      Academic degree and educational background.
+    </p>
+  </div>
+
+  <div class="relative border-l border-border/80 pl-6 md:pl-8 space-y-10">
+    {
+      sortedEntries.map((item) => (
+        <div class="relative group">
+          <div class="absolute -left-[calc(1.5rem+4.5px)] md:-left-[calc(2rem+4.5px)] top-2 h-2 w-2 rounded-full border border-border bg-muted-foreground/40 group-hover:bg-primary group-hover:scale-125 transition-all duration-200" />
+
+          <div class="flex flex-col gap-1.5">
+            <div class="flex items-center gap-3">
+              <span class="font-mono text-xs text-muted-foreground tracking-wider uppercase">
+                {item.data.period}
+              </span>
+            </div>
+
+            <div>
+              <a href={`/timeline/${item.id}`} class="group/title inline-block">
+                <h3 class="text-foreground font-mono text-xl font-semibold group-hover/title:underline underline-offset-4 decoration-border">
+                  {item.data.title}
+                </h3>
+              </a>
+              {item.data.subtitle && (
+                <p class="text-sm font-mono text-muted-foreground/80 mt-0.5">{item.data.subtitle}</p>
+              )}
+              <p class="text-muted-foreground text-sm leading-relaxed mt-2 max-w-2xl">
+                {item.data.description}
+              </p>
+            </div>
+          </div>
+        </div>
+      ))
+    }
+  </div>
+</section>

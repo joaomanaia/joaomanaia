@@ -30,4 +30,16 @@ const projects = defineCollection({
   }),
 })
 
-export const collections = { projects }
+const timeline = defineCollection({
+  loader: glob({ base: "./src/content/timeline", pattern: "**/*.{md,mdx}" }),
+  schema: z.object({
+    title: z.string(),
+    subtitle: z.string().optional(),
+    period: z.string(),
+    order: z.number().int().default(0),
+    description: z.string(),
+    projects: z.array(reference("projects")).default([]),
+  }),
+})
+
+export const collections = { projects, timeline }
