@@ -1,9 +1,7 @@
 ---
 import { getCollection, render, getEntries } from "astro:content"
 import Layout from "../../layouts/Layout.astro"
-import { Badge } from "../../components/ui/badge"
-import { ExternalLinkIcon } from "lucide-react"
-import { Separator } from "@/components/ui/separator"
+import ProjectCard from "@/components/ProjectCard.astro"
 
 export async function getStaticPaths() {
   const timelineEntries = await getCollection("timeline")
@@ -60,34 +58,8 @@ const linkedProjects = entry.data.projects ? await getEntries(entry.data.project
             <span class="mono-label">related projects</span>
           </div>
           <div class="wrapper grid grid-cols-1 px-0 md:grid-cols-2 [&>*:nth-child(-n+2)]:border-b [&>*:nth-child(odd)]:border-r">
-            {linkedProjects.map((related, i) => (
-              <a
-                href={`/projects/${related.id}`}
-                class="group border-border hover:bg-muted/40 flex flex-col gap-4 p-6 transition-colors md:p-8"
-              >
-                <div class="flex items-center justify-between">
-                  <span class="mono-label">{related.data.tags[0] ?? "project"}</span>
-                  <ExternalLinkIcon className="text-muted-foreground group-hover:text-foreground size-4 transition-colors" />
-                </div>
-                <h3 class="text-foreground decoration-border text-xl font-semibold tracking-tight underline-offset-4 group-hover:underline">
-                  {related.data.title}
-                </h3>
-                <p class="text-muted-foreground line-clamp-2 text-sm leading-relaxed">
-                  {related.data.description}
-                </p>
-                <div class="mt-auto flex flex-wrap gap-2">
-                  {related.data.tags.slice(0, 3).map((t) => (
-                    <span class="text-muted-foreground border-border border px-2 py-0.5 font-mono text-[10px] tracking-widest uppercase">
-                      {t}
-                    </span>
-                  ))}
-                  {related.data.tags.length > 3 && (
-                    <span class="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
-                      +{related.data.tags.length - 3}
-                    </span>
-                  )}
-                </div>
-              </a>
+            {linkedProjects.map((related) => (
+              <ProjectCard project={related} showCategoryTag maxTags={3} />
             ))}
           </div>
         </>

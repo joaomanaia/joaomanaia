@@ -1,29 +1,14 @@
 ---
-import { ExternalLinkIcon } from "lucide-react"
 import { getCollection } from "astro:content"
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "../ui/button"
-import { Badge } from "../ui/badge"
+import { ExternalLinkIcon } from "lucide-react"
+import ProjectCard from "../ProjectCard.astro"
+import { sortProjects } from "@/lib/projects"
 
 const projects = await getCollection("projects")
 
-const featured = projects
-  .filter((p) => p.data.featured)
-  .sort((a, b) => {
-    const pa = a.data.priority ?? 0
-    const pb = b.data.priority ?? 0
-    if (pb !== pa) return pb - pa
-
-    const at = (a.data.updatedAt ?? a.data.createdAt)?.getTime() ?? -Infinity
-    const bt = (b.data.updatedAt ?? b.data.createdAt)?.getTime() ?? -Infinity
-    if (bt !== at) return bt - at
-
-    const ao = a.data.order ?? Number.MAX_SAFE_INTEGER
-    const bo = b.data.order ?? Number.MAX_SAFE_INTEGER
-    if (ao !== bo) return ao - bo
-
-    return a.id.localeCompare(b.id)
-  })
+const featured = sortProjects(projects.filter((p) => p.data.featured))
 ---
 
 <section id="projects">
@@ -49,37 +34,6 @@ const featured = projects
   <div
     class="wrapper grid grid-cols-1 px-0 md:auto-rows-fr md:grid-cols-2 [&>*:nth-child(-n+2)]:border-b [&>*:nth-child(odd)]:border-r"
   >
-    {
-      featured.map((project, i) => (
-        <a
-          href={`/projects/${project.id}`}
-          class="group hover:bg-muted/40 flex flex-col gap-4 p-6 transition-colors md:p-8"
-        >
-          <div class="flex items-center justify-between">
-            <span class="mono-label">{String(i + 1).padStart(2, "0")}</span>
-            <ExternalLinkIcon className="text-muted-foreground group-hover:text-foreground size-4 transition-colors duration-150" />
-          </div>
-
-          <div class="flex flex-1 flex-col gap-2">
-            <h3 class="text-foreground decoration-border text-xl font-semibold tracking-tight underline-offset-4 group-hover:underline">
-              {project.data.title}
-            </h3>
-            <p class="text-muted-foreground text-sm leading-relaxed">{project.data.description}</p>
-          </div>
-
-          <div class="flex flex-wrap gap-2">
-            {project.data.tags.map((tag) => (
-              <Badge
-                variant="outline"
-                key={tag}
-                className="font-mono tracking-widest uppercase text-muted-foreground text-[10px] px-2 py-0.5"
-              >
-                {tag}
-              </Badge>
-            ))}
-          </div>
-        </a>
-      ))
-    }
+    {featured.map((project, i) => <ProjectCard project={project} index={i} />)}
   </div>
 </section>
