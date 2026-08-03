@@ -1,6 +1,7 @@
 ---
 import { buttonVariants } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
+import { ModeToggle } from "./ModeToggle"
 
 const navLinks = [
   { id: "home", href: "/#home", label: "Home" },
@@ -10,36 +11,45 @@ const navLinks = [
 ]
 ---
 
-<header class="bg-background sticky top-0 z-50 border-b">
-  <nav class="container mx-auto flex items-center justify-center">
-    {
-      navLinks.map(({ id, href, label }) => (
-        <a
-          href={href}
-          data-nav-link={id}
-          class={cn(
-            buttonVariants({ variant: "ghost", size: "lg" }),
-            "relative h-14 rounded-none px-6 transition-colors hover:bg-transparent"
-          )}
-        >
-          {label}
-          <div class="active-indicator bg-primary absolute bottom-0 left-0 h-0.5 w-full scale-x-0 transition-transform duration-300" />
-        </a>
-      ))
-    }
+<header class="sticky top-0 z-50">
+  <nav
+    class="wrapper bg-background flex h-14 items-center justify-between border-r border-b border-l"
+  >
+    <a
+      href="/"
+      class={cn(
+        buttonVariants({ variant: "ghost" }),
+        "font-mono text-sm font-semibold tracking-tight transition-opacity hover:bg-transparent hover:text-foreground/80"
+      )}
+    >
+      joaomanaia
+    </a>
+
+    <ul class="hidden items-center md:flex">
+      {
+        navLinks.map(({ id, href, label }) => (
+          <li>
+            <a
+              href={href}
+              data-nav-link={id}
+              class={cn(
+                buttonVariants({ variant: "ghost", size: "lg" }),
+                "text-muted-foreground [&.nav-active]:text-foreground relative h-14 rounded-none px-5 font-mono text-sm transition-colors hover:bg-transparent [&.nav-active>div]:scale-x-100"
+              )}
+            >
+              {label}
+              <div class="bg-foreground absolute -bottom-px left-0 h-px w-full origin-left scale-x-0 transition-transform duration-300" />
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="flex items-center gap-2">
+      <ModeToggle client:load />
+    </div>
   </nav>
 </header>
-
-<style>
-  @reference "../styles/global.css";
-
-  .nav-active {
-    @apply text-primary;
-  }
-  .nav-active .active-indicator {
-    @apply scale-x-100;
-  }
-</style>
 
 <script>
   const getNavLinks = () => Array.from(document.querySelectorAll("[data-nav-link]"))

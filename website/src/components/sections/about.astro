@@ -1,16 +1,44 @@
-<section id="about" class="container mx-auto max-w-4xl px-6 py-16 md:py-24 lg:py-32 xl:py-40">
-  <h2 class="text-foreground mb-8 font-mono text-3xl font-bold">About</h2>
-  <div class="text-muted-foreground space-y-6 text-base leading-relaxed md:text-lg">
-    <p>
-      Based in Portugal, I am passionate about creating seamless and efficient applications that
-      enhance user experiences. My expertise lies in developing robust Android applications using
-      Kotlin and Jetpack Compose, ensuring high performance and modern design principles.
-    </p>
-    <p>
-      In addition to mobile development, I have a strong background in web development, utilizing
-      React, TypeScript, and Tailwind CSS to build responsive and dynamic web applications. I enjoy
-      tackling complex problems and continuously learning new technologies to stay at the forefront
-      of the industry.
-    </p>
+---
+const stack = [
+  { label: "Android", detail: "Kotlin · Jetpack Compose" },
+  { label: "Frontend", detail: "React · Astro · TypeScript" },
+  { label: "Backend", detail: "Node.js · REST · Supabase" },
+  { label: "Tooling", detail: "Git · Docker · CI/CD" },
+]
+---
+
+<section id="about">
+  <div class="wrapper border-border border-b py-3.5">
+    <span class="mono-label">about</span>
+  </div>
+
+  <div class="wrapper divide-border grid grid-cols-1 border-b pr-0 md:grid-cols-2 md:divide-x">
+    <div class="flex flex-col gap-5 py-12 md:py-16 md:pr-10">
+      <h2 class="text-foreground text-3xl leading-tight font-semibold tracking-tight md:text-4xl">
+        Based in Portugal,<br />building for the web.
+      </h2>
+      <div class="text-muted-foreground max-w-md space-y-4 text-base leading-relaxed">
+        <p>
+          Passionate about creating apps that feel fast and intentional. I spend most of my time in
+          Kotlin with Jetpack Compose on Android, and reach for React or Astro when building for the
+          web.
+        </p>
+        <p>
+          I enjoy the full picture, from architecture decisions down to the small UI details that
+          make something feel right to use.
+        </p>
+      </div>
+    </div>
+
+    <div class="grid grow grid-cols-2 [&>*:nth-child(-n+2)]:border-b [&>*:nth-child(odd)]:border-r">
+      {
+        stack.map(({ label, detail }) => (
+          <div class="flex flex-col gap-1.5 p-6">
+            <span class="mono-label">{label}</span>
+            <span class="text-foreground text-sm leading-snug font-medium">{detail}</span>
+          </div>
+        ))
+      }
+    </div>
   </div>
 </section>

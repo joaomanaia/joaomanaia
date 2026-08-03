@@ -1,9 +1,7 @@
 ---
 import { getCollection, render, getEntries } from "astro:content"
 import Layout from "../../layouts/Layout.astro"
-import { Badge } from "../../components/ui/badge"
-import { ExternalLinkIcon } from "lucide-react"
-import { Separator } from "@/components/ui/separator"
+import ProjectCard from "@/components/ProjectCard.astro"
 
 export async function getStaticPaths() {
   const timelineEntries = await getCollection("timeline")
@@ -21,9 +19,9 @@ const linkedProjects = entry.data.projects ? await getEntries(entry.data.project
 
 <Layout title={`${entry.data.title} - João Manaia`} description={entry.data.description}>
   <main class="relative grow">
-    <header class="container mx-auto max-w-4xl px-6 pt-16 pb-12 md:pt-24 lg:pt-32 xl:pt-40">
+    <header class="wrapper pt-16 pb-12 md:pt-24 lg:pt-32 xl:pt-40">
       <div class="mb-4">
-        <span class="font-mono text-xs text-muted-foreground tracking-wider uppercase">
+        <span class="text-muted-foreground font-mono text-xs tracking-wider uppercase">
           {entry.data.period}
         </span>
       </div>
@@ -45,48 +43,24 @@ const linkedProjects = entry.data.projects ? await getEntries(entry.data.project
 
     {
       hasContent && (
-        <>
-          <Separator />
-          <div class="prose dark:prose-invert prose-pre:bg-muted/50 container mx-auto max-w-4xl px-6 py-12">
+        <div class="wrapper border-t">
+          <div class="prose dark:prose-invert prose-pre:bg-muted/50 py-12">
             <Content />
           </div>
-        </>
+        </div>
       )
     }
 
     {
       linkedProjects.length > 0 && (
         <>
-          <Separator />
-          <div class="not-prose container mx-auto max-w-4xl px-6 py-12">
-            <h2 class="text-foreground mb-8 font-mono text-2xl font-bold">
-              Associated Projects
-            </h2>
-            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              {linkedProjects.map((project) => (
-                <a
-                  href={`/projects/${project.id}`}
-                  class="group border-border bg-card hover:border-muted-foreground hover:bg-accent flex flex-col rounded-xl border p-5 transition-all duration-300"
-                >
-                  <div class="mb-2 flex items-center justify-between">
-                    <h3 class="text-card-foreground group-hover:text-accent-foreground font-mono text-lg font-semibold">
-                      {project.data.title}
-                    </h3>
-                    <ExternalLinkIcon className="text-muted-foreground group-hover:text-accent-foreground h-4 w-4" />
-                  </div>
-                  <p class="text-muted-foreground line-clamp-2 text-sm leading-relaxed">
-                    {project.data.description}
-                  </p>
-                  <div class="mt-4 flex flex-wrap gap-1.5">
-                    {project.data.tags.slice(0, 4).map((tag) => (
-                      <Badge variant="secondary" className="text-xs font-mono">
-                        {tag}
-                      </Badge>
-                    ))}
-                  </div>
-                </a>
-              ))}
-            </div>
+          <div class="wrapper border-y py-3.5">
+            <span class="mono-label">related projects</span>
+          </div>
+          <div class="wrapper grid grid-cols-1 px-0 md:grid-cols-2 [&>*:nth-child(-n+2)]:border-b [&>*:nth-child(odd)]:border-r">
+            {linkedProjects.map((related) => (
+              <ProjectCard project={related} showCategoryTag maxTags={3} />
+            ))}
           </div>
         </>
       )

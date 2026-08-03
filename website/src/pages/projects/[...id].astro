@@ -1,10 +1,10 @@
 ---
 import { getCollection, render, getEntries } from "astro:content"
 import Layout from "../../layouts/Layout.astro"
-import { Badge } from "../../components/ui/badge"
 import { ExternalLinkIcon } from "lucide-react"
+import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
-import { Separator } from "@/components/ui/separator"
+import ProjectCard from "@/components/ProjectCard.astro"
 
 export async function getStaticPaths() {
   const projects = await getCollection("projects")
@@ -21,87 +21,70 @@ const relatedProjects = project.data.related ? await getEntries(project.data.rel
 ---
 
 <Layout title={project.data.title} description={project.data.description}>
-  <main class="relative grow">
-    <header class="container mx-auto max-w-4xl px-6 pt-16 pb-12 md:pt-24 lg:pt-32 xl:pt-40">
-      <h1 class="text-foreground mb-4 text-center font-mono text-4xl font-bold md:text-5xl">
-        {project.data.title}
-      </h1>
+  <div class="wrapper border-border border-b py-3.5">
+    <span class="mono-label">projects</span>
+  </div>
 
-      <p class="text-muted-foreground text-center text-xl leading-relaxed">
-        {project.data.description}
-      </p>
+  <div class="wrapper flex grow flex-col items-center border-b py-16 md:py-24 lg:py-32">
+    <div class="mb-6 flex flex-wrap gap-2">
+      {
+        project.data.tags.map((tag) => (
+          <span class="text-muted-foreground border-border border px-2 py-0.5 font-mono text-[10px] tracking-widest uppercase">
+            {tag}
+          </span>
+        ))
+      }
+    </div>
 
-      <div class="mt-6 mb-4 flex flex-wrap justify-center gap-2">
-        {project.data.tags.map((tag) => <Badge variant="secondary">{tag}</Badge>)}
+    <h1
+      class="text-foreground mb-6 text-4xl leading-tight font-semibold tracking-tight md:text-5xl lg:text-6xl"
+    >
+      {project.data.title}
+    </h1>
+
+    <p class="text-muted-foreground mb-10 max-w-2xl text-center text-lg leading-relaxed md:text-xl">
+      {project.data.description}
+    </p>
+
+    <div class="flex flex-wrap gap-4">
+      {
+        project.data.links.map((link) => (
+          <a
+            href={link.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class={cn(buttonVariants({ variant: "outlineExpressive" }))}
+          >
+            <ExternalLinkIcon className="size-3.5" />
+            {link.name}
+          </a>
+        ))
+      }
+    </div>
+  </div>
+
+  {
+    hasContent && (
+      <div class="wrapper py-12 md:py-16">
+        <div class="prose dark:prose-invert prose-pre:bg-muted/50 prose-headings:font-semibold prose-headings:tracking-tight prose-a:text-foreground prose-a:underline prose-a:underline-offset-4 prose-code:font-mono prose-code:text-sm max-w-3xl">
+          <Content />
+        </div>
       </div>
+    )
+  }
 
-      <div class="mt-6 flex flex-wrap justify-center gap-4">
-        {
-          project.data.links.map((link) => (
-            <a
-              href={link.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              class={buttonVariants({ variant: link.variant })}
-            >
-              <ExternalLinkIcon />
-              {link.name}
-            </a>
-          ))
-        }
-      </div>
-    </header>
-
-    {
-      hasContent && (
-        <>
-          <Separator />
-          <div class="prose dark:prose-invert prose-pre:bg-muted/50 container mx-auto max-w-4xl px-6 py-12">
-            <Content />
-          </div>
-        </>
-      )
-    }
-    {
-      relatedProjects.length > 0 && (
-        <>
-          <Separator />
-          <div class="not-prose container mx-auto max-w-4xl px-6 py-12">
-            <h2 class="text-foreground mb-8 flex items-center gap-2 font-mono text-2xl font-bold">
-              Related Projects
-            </h2>
-            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              {relatedProjects.map((related) => (
-                <a
-                  href={`/projects/${related.id}`}
-                  class="group border-border bg-card hover:border-muted-foreground hover:bg-accent flex flex-col rounded-xl border p-5 transition-all duration-300"
-                >
-                  <div class="mb-2 flex items-center justify-between">
-                    <h3 class="text-card-foreground group-hover:text-accent-foreground font-mono text-lg font-semibold">
-                      {related.data.title}
-                    </h3>
-                  </div>
-                  <p class="text-muted-foreground line-clamp-2 text-sm leading-relaxed italic">
-                    {related.data.description}
-                  </p>
-                  <div class="mt-4 flex flex-wrap gap-1.5">
-                    {related.data.tags.slice(0, 3).map((t) => (
-                      <span class="text-muted-foreground/60 text-[10px] font-medium tracking-wider uppercase">
-                        {t}
-                      </span>
-                    ))}
-                    {related.data.tags.length > 3 && (
-                      <span class="text-muted-foreground/60 text-[10px] font-medium tracking-wider uppercase">
-                        +{related.data.tags.length - 3}
-                      </span>
-                    )}
-                  </div>
-                </a>
-              ))}
-            </div>
-          </div>
-        </>
-      )
-    }
-  </main>
+  {
+    relatedProjects.length > 0 && (
+      <>
+        <div class="wrapper border-b py-3.5">
+          <span class="mono-label">related projects</span>
+        </div>
+        <div class="wrapper grid grid-cols-1 px-0 md:grid-cols-2 [&>*:nth-child(-n+2)]:border-b [&>*:nth-child(odd)]:border-r">
+          {relatedProjects.map((related) => (
+            <ProjectCard project={related} showCategoryTag maxTags={3} />
+          ))}
+        </div>
+      </>
+    )
+  }
 </Layout>

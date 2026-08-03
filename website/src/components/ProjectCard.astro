@@ -1,0 +1,66 @@
+---
+import { ExternalLinkIcon } from "lucide-react"
+import { Badge } from "@/components/ui/badge"
+import type { CollectionEntry } from "astro:content"
+
+interface Props {
+  project: CollectionEntry<"projects">
+  index?: number
+  showCategoryTag?: boolean
+  maxTags?: number
+}
+
+const { project, index, showCategoryTag = false, maxTags } = Astro.props
+
+const tagsToDisplay = maxTags ? project.data.tags.slice(0, maxTags) : project.data.tags
+const remainingTagsCount = maxTags ? project.data.tags.length - maxTags : 0
+---
+
+<a
+  href={`/projects/${project.id}`}
+  class="group hover:bg-muted/40 border-border flex flex-col gap-4 p-6 transition-colors md:p-8"
+>
+  <div class="flex items-center justify-between">
+    <span class="mono-label">
+      {
+        showCategoryTag
+          ? (project.data.tags[0] ?? "project")
+          : index !== undefined
+            ? String(index + 1).padStart(2, "0")
+            : "project"
+      }
+    </span>
+    <ExternalLinkIcon className="text-muted-foreground group-hover:text-foreground size-4 transition-colors duration-150" />
+  </div>
+
+  <div class="flex flex-1 flex-col gap-2">
+    <h3
+      class="text-foreground decoration-border text-xl font-semibold tracking-tight underline-offset-4 group-hover:underline"
+    >
+      {project.data.title}
+    </h3>
+    <p class="text-muted-foreground line-clamp-2 text-sm leading-relaxed">
+      {project.data.description}
+    </p>
+  </div>
+
+  <div class="mt-auto flex flex-wrap gap-2">
+    {
+      tagsToDisplay.map((tag) => (
+        <Badge
+          variant="outline"
+          className="font-mono tracking-widest uppercase text-muted-foreground text-[10px] px-2 py-0.5"
+        >
+          {tag}
+        </Badge>
+      ))
+    }
+    {
+      remainingTagsCount > 0 && (
+        <span class="text-muted-foreground font-mono text-[10px] tracking-widest uppercase self-center">
+          +{remainingTagsCount}
+        </span>
+      )
+    }
+  </div>
+</a>

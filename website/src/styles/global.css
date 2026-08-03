@@ -2,9 +2,6 @@
 @plugin "@tailwindcss/typography";
 @import "tw-animate-css";
 
-/* Prevent accidental horizontal overflow from creating a page-level scrollbar */
-/* Removed global overflow-x:hidden because it interferes with `position: sticky` on children (header). */
-
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -122,8 +119,16 @@
     @apply border-border outline-ring/50;
     scrollbar-color: var(--color-muted-foreground) var(--color-muted);
   }
+  html {
+    scrollbar-gutter: stable;
+  }
   body {
     @apply bg-background text-foreground scroll-smooth antialiased;
+    font-family:
+      "Inter",
+      system-ui,
+      -apple-system,
+      sans-serif;
   }
 
   ::selection {
@@ -151,5 +156,26 @@
   button:not(:disabled),
   [role="button"]:not(:disabled) {
     cursor: pointer;
+  }
+
+  h1 {
+    @apply text-4xl leading-tight font-semibold tracking-tight md:text-5xl lg:text-6xl;
+  }
+  h2 {
+    @apply text-3xl leading-tight font-semibold tracking-tight md:text-4xl;
+  }
+  h3 {
+    @apply text-2xl font-semibold tracking-tight md:text-3xl;
+  }
+  h4 {
+    @apply text-xl font-semibold tracking-tight;
+  }
+
+  .wrapper {
+    @apply container mx-auto w-full max-w-7xl px-5 md:px-10;
+  }
+
+  .mono-label {
+    @apply text-muted-foreground font-mono text-xs tracking-widest uppercase;
   }
 }
