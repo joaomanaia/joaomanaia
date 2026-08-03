@@ -2,7 +2,7 @@
 import { Icon } from "astro-icon/components"
 import { buttonVariants } from "../ui/button"
 
-const heroLinks = [
+const links = [
   { name: "GitHub", url: "https://github.com/joaomanaia", icon: "github" },
   {
     name: "Instagram",
@@ -12,28 +12,29 @@ const heroLinks = [
 ]
 ---
 
-<section id="home" class="container mx-auto max-w-4xl px-6 py-16 md:py-24 lg:py-32 xl:py-40">
+<section
+  id="home"
+  class="wrapper flex flex-col items-center border-b py-16 text-center md:py-24 lg:py-32 xl:py-40"
+>
   <h1
-    class="text-foreground mb-4 font-mono text-5xl font-bold tracking-tight md:text-6xl lg:text-7xl"
+    class="text-foreground mb-5 text-5xl leading-[1.05] font-semibold tracking-tight md:text-6xl lg:text-7xl"
   >
     João Manaia
   </h1>
 
-  <p class="text-muted-foreground mb-2 font-mono text-xl md:text-2xl">Mobile and Web Developer</p>
-
-  <p class="text-muted-foreground mb-10 max-w-2xl text-lg leading-relaxed">
-    Building native Android applications with Kotlin and Jetpack Compose, and crafting web
-    experiences using React, TypeScript, and Tailwind CSS.
+  <p class="text-muted-foreground mb-10 max-w-lg text-lg leading-relaxed md:text-xl">
+    Building Android apps and web experiences, focused on performance, clean architecture, and
+    things that actually work.
   </p>
 
   <div class="flex flex-wrap items-center gap-4">
     {
-      heroLinks.map((link) => (
+      links.map((link) => (
         <a
           href={link.url}
           target="_blank"
           rel="noopener noreferrer"
-          class={buttonVariants({ variant: "secondary", size: "lg" })}
+          class={buttonVariants({ variant: "outlineExpressive", size: "lg" })}
         >
           <Icon name={link.icon} />
           {link.name}

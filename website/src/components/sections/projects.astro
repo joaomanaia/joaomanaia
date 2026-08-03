@@ -1,56 +1,78 @@
 ---
 import { ExternalLinkIcon } from "lucide-react"
-import { Badge } from "../ui/badge"
 import { getCollection } from "astro:content"
+import { cn } from "@/lib/utils"
+import { buttonVariants } from "../ui/button"
+import { Badge } from "../ui/badge"
 
 const projects = await getCollection("projects")
 
-const orderedProjects = projects
-  .filter((project) => project.data.featured)
+const featured = projects
+  .filter((p) => p.data.featured)
   .sort((a, b) => {
-    // 1) Highest priority first
-    const ap = a.data.priority ?? 0
-    const bp = b.data.priority ?? 0
-    if (bp !== ap) return bp - ap
+    const pa = a.data.priority ?? 0
+    const pb = b.data.priority ?? 0
+    if (pb !== pa) return pb - pa
 
-    // 2) Newest updatedAt/createdAt first (if present)
-    const aTime = (a.data.updatedAt ?? a.data.createdAt)?.getTime() ?? -Infinity
-    const bTime = (b.data.updatedAt ?? b.data.createdAt)?.getTime() ?? -Infinity
-    if (bTime !== aTime) return bTime - aTime
+    const at = (a.data.updatedAt ?? a.data.createdAt)?.getTime() ?? -Infinity
+    const bt = (b.data.updatedAt ?? b.data.createdAt)?.getTime() ?? -Infinity
+    if (bt !== at) return bt - at
 
-    // 3) Fallback: old manual order (ascending) if still present
-    const aOrder = a.data.order ?? Number.MAX_SAFE_INTEGER
-    const bOrder = b.data.order ?? Number.MAX_SAFE_INTEGER
-    if (aOrder !== bOrder) return aOrder - bOrder
+    const ao = a.data.order ?? Number.MAX_SAFE_INTEGER
+    const bo = b.data.order ?? Number.MAX_SAFE_INTEGER
+    if (ao !== bo) return ao - bo
 
     return a.id.localeCompare(b.id)
   })
 ---
 
-<section id="projects" class="container mx-auto max-w-4xl px-6 py-16 md:py-24 lg:py-32 xl:py-40">
-  <h2 class="text-foreground mb-10 font-mono text-3xl font-bold">Projects</h2>
-  <div class="space-y-6">
+<section id="projects">
+  <div class="wrapper border-border border-b py-3.5">
+    <span class="mono-label">projects</span>
+  </div>
+
+  <div
+    class="wrapper border-border flex flex-col gap-6 border-b py-10 md:flex-row md:items-end md:justify-between md:py-14"
+  >
+    <div>
+      <h2 class="text-foreground text-3xl leading-tight font-semibold tracking-tight md:text-4xl">
+        Featured Work
+      </h2>
+      <p class="text-muted-foreground mt-3 max-w-md text-base">Things I've built and shipped.</p>
+    </div>
+    <a href="/projects" class={cn(buttonVariants({ variant: "ghost" }))}>
+      All Projects
+      <ExternalLinkIcon className="size-3.5" />
+    </a>
+  </div>
+
+  <div
+    class="wrapper grid grid-cols-1 px-0 md:auto-rows-fr md:grid-cols-2 [&>*:nth-child(-n+2)]:border-b [&>*:nth-child(odd)]:border-r"
+  >
     {
-      orderedProjects.map((project) => (
+      featured.map((project, i) => (
         <a
           href={`/projects/${project.id}`}
-          class="group border-border bg-card hover:border-muted-foreground hover:bg-accent block rounded-lg border p-6 transition-all"
+          class="group hover:bg-muted/40 flex flex-col gap-4 p-6 transition-colors md:p-8"
         >
-          <div class="mb-3 flex items-start justify-between">
-            <h3 class="text-card-foreground group-hover:text-accent-foreground font-mono text-xl font-semibold">
+          <div class="flex items-center justify-between">
+            <span class="mono-label">{String(i + 1).padStart(2, "0")}</span>
+            <ExternalLinkIcon className="text-muted-foreground group-hover:text-foreground size-4 transition-colors duration-150" />
+          </div>
+
+          <div class="flex flex-1 flex-col gap-2">
+            <h3 class="text-foreground decoration-border text-xl font-semibold tracking-tight underline-offset-4 group-hover:underline">
               {project.data.title}
             </h3>
-            <ExternalLinkIcon className="text-muted-foreground group-hover:text-accent-foreground h-5 w-5 transition-transform group-hover:translate-x-1" />
+            <p class="text-muted-foreground text-sm leading-relaxed">{project.data.description}</p>
           </div>
-          <p class="text-muted-foreground mb-4 text-sm leading-relaxed">
-            {project.data.description}
-          </p>
+
           <div class="flex flex-wrap gap-2">
             {project.data.tags.map((tag) => (
               <Badge
-                variant="secondary"
-                className="border-border bg-muted text-muted-foreground group-hover:bg-accent-foreground/10 group-hover:text-accent-foreground transition-colors"
+                variant="outline"
                 key={tag}
+                className="font-mono tracking-widest uppercase text-muted-foreground text-[10px] px-2 py-0.5"
               >
                 {tag}
               </Badge>
