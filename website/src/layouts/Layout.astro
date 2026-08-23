@@ -5,10 +5,12 @@ import VerticalDivider from "@/components/vertical-divider.astro"
 import UmamiAnalytics from "@/components/UmamiAnalytics.astro"
 import "../styles/global.css"
 import Footer from "@/components/footer.astro"
+import { getAlternateLinks, getLocaleFromUrl, type Locale } from "@/i18n"
 
 interface Props {
   title?: string
   description?: string
+  locale?: Locale
   openGraph?: {
     basic: {
       title: string
@@ -33,24 +35,57 @@ interface Props {
   }
 }
 
-const { title = "João Manaia", description, openGraph, twitter } = Astro.props as Props
+const { title = "João Manaia", description, openGraph, twitter, locale } = Astro.props as Props
+
+const currentLocale = locale ?? getLocaleFromUrl(Astro.url)
+const siteUrl = Astro.site?.toString() ?? "https://joaomanaia.dev"
+const canonicalUrl = new URL(Astro.url.pathname, siteUrl)
+  .toString()
+  .replace(/\/$/, Astro.url.pathname === "/" ? "/" : "")
+const alternateLinks = getAlternateLinks(Astro.url.pathname, siteUrl)
+const defaultOgLocale = currentLocale === "pt" ? "pt_PT" : "en_US"
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={currentLocale}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <SEO title={title} description={description} openGraph={openGraph} twitter={twitter} />
+    <SEO
+      title={title}
+      description={description}
+      canonical={canonicalUrl}
+      openGraph={{
+        basic: {
+          title: openGraph?.basic?.title ?? title,
+          type: openGraph?.basic?.type ?? "website",
+          image: openGraph?.basic?.image ?? `${siteUrl}/favicon.svg`,
+          url: openGraph?.basic?.url ?? canonicalUrl,
+        },
+        optional: {
+          description: openGraph?.optional?.description ?? description,
+          siteName: openGraph?.optional?.siteName ?? "João Manaia",
+          locale: openGraph?.optional?.locale ?? defaultOgLocale,
+        },
+      }}
+      twitter={twitter}
+      extend={{
+        link: alternateLinks.map((alt) => ({
+          rel: alt.rel,
+          hreflang: alt.hreflang,
+          href: alt.href,
+        })),
+      }}
+    />
     <UmamiAnalytics />
   </head>
   <body>
     <div class="relative flex min-h-screen flex-col">
       <VerticalDivider />
-      <Header />
+      <Header locale={currentLocale} />
       <slot />
-      <Footer />
+      <Footer locale={currentLocale} />
     </div>
   </body>
 </html>

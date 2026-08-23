@@ -4,7 +4,7 @@ description: Web version of NewQuiz, featuring multi-choice, trivia, and Wordle-
 createdAt: 2023-01-01
 tags: ["Next.js", "React", "Tailwind CSS", "Hono", "Firebase", "TypeScript"]
 featured: false
-related: ["newquiz"]
+related: ["en/newquiz"]
 links:
   [
     { name: "GitHub Repository", url: "https://github.com/joaomanaia/newquizweb" },

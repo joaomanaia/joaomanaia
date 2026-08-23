@@ -5,7 +5,7 @@ priority: 100
 createdAt: 2021-02-15
 updatedAt: 2024-10-01
 tags: ["Kotlin", "Jetpack Compose", "Material 3", "MVVM"]
-related: ["newquiz-web"]
+related: ["en/newquiz-web"]
 links:
   [
     { name: "GitHub Repository", url: "https://github.com/joaomanaia/newquiz" },

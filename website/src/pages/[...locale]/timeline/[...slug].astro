@@ -1,23 +1,36 @@
 ---
 import { getCollection, render, getEntries } from "astro:content"
-import Layout from "../../layouts/Layout.astro"
+import Layout from "@/layouts/Layout.astro"
 import ProjectCard from "@/components/ProjectCard.astro"
+import { useTranslations, type Locale, defaultLocale } from "@/i18n"
 
 export async function getStaticPaths() {
   const timelineEntries = await getCollection("timeline")
-  return timelineEntries.map((entry) => ({
-    params: { id: entry.id },
-    props: { entry },
-  }))
+
+  return timelineEntries.map((entry) => {
+    const [locale, ...slug] = entry.id.split("/")
+    return {
+      params: {
+        locale: locale === defaultLocale ? undefined : locale,
+        slug: slug.join("/"),
+      },
+      props: { entry, locale: (locale || defaultLocale) as Locale },
+    }
+  })
 }
 
-const { entry } = Astro.props
+const { entry, locale } = Astro.props
+const t = useTranslations(locale)
 const { Content } = await render(entry)
 const hasContent = (entry.body ?? "").trim().length > 0
 const linkedProjects = entry.data.projects ? await getEntries(entry.data.projects) : []
 ---
 
-<Layout title={`${entry.data.title} - João Manaia`} description={entry.data.description}>
+<Layout
+  locale={locale}
+  title={`${entry.data.title} - João Manaia`}
+  description={entry.data.description}
+>
   <main class="relative grow">
     <header class="wrapper pt-16 pb-12 md:pt-24 lg:pt-32 xl:pt-40">
       <div class="mb-4">
@@ -55,11 +68,11 @@ const linkedProjects = entry.data.projects ? await getEntries(entry.data.project
       linkedProjects.length > 0 && (
         <>
           <div class="wrapper border-y py-3.5">
-            <span class="mono-label">related projects</span>
+            <span class="mono-label">{t("projects.related")}</span>
           </div>
           <div class="wrapper grid grid-cols-1 px-0 md:grid-cols-2 [&>*:nth-child(-n+2)]:border-b [&>*:nth-child(odd)]:border-r">
             {linkedProjects.map((related) => (
-              <ProjectCard project={related} showCategoryTag maxTags={3} />
+              <ProjectCard project={related} locale={locale} showCategoryTag maxTags={3} />
             ))}
           </div>
         </>

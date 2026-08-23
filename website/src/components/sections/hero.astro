@@ -1,6 +1,14 @@
 ---
 import { Icon } from "astro-icon/components"
 import { buttonVariants } from "../ui/button"
+import { useTranslations, getLocaleFromUrl, type Locale } from "@/i18n"
+
+interface Props {
+  locale?: Locale
+}
+
+const { locale = getLocaleFromUrl(Astro.url) } = Astro.props
+const t = useTranslations(locale)
 
 const links = [
   { name: "GitHub", url: "https://github.com/joaomanaia", icon: "github" },
@@ -19,12 +27,11 @@ const links = [
   <h1
     class="text-foreground mb-5 text-5xl leading-[1.05] font-semibold tracking-tight md:text-6xl lg:text-7xl"
   >
-    João Manaia
+    {t("hero.title")}
   </h1>
 
   <p class="text-muted-foreground mb-10 max-w-lg text-lg leading-relaxed md:text-xl">
-    Building Android apps and web experiences, focused on performance, clean architecture, and
-    things that actually work.
+    {t("hero.description")}
   </p>
 
   <div class="flex flex-wrap items-center gap-4">

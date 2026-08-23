@@ -8,13 +8,42 @@ const isConfigured = websiteId
 
 {
   isConfigured ? (
-    <script
-      defer
-      src={scriptUrl}
-      data-website-id={websiteId}
-      data-performance="true"
-      is:inline
-      type="text/partytown"
-    />
+    <>
+      <script is:inline>
+        window.beforeSendHandler = function (_type, payload) {
+          if (payload && typeof payload.url === "string") {
+            const isEn =
+              payload.url === "/en" ||
+              payload.url === "/en/" ||
+              payload.url.startsWith("/en/") ||
+              payload.url.startsWith("/en?") ||
+              payload.url.startsWith("/en#")
+
+            payload.data = {
+              ...(payload.data || {}),
+              locale: isEn ? "en" : "pt",
+            }
+
+            if (payload.url === "/en" || payload.url === "/en/") {
+              payload.url = "/"
+            } else if (payload.url.startsWith("/en/")) {
+              payload.url = payload.url.slice(3)
+            } else if (payload.url.startsWith("/en?") || payload.url.startsWith("/en#")) {
+              payload.url = "/" + payload.url.slice(3)
+            }
+          }
+          return payload
+        }
+      </script>
+      <script
+        defer
+        src={scriptUrl}
+        data-website-id={websiteId}
+        data-performance="true"
+        data-before-send="beforeSendHandler"
+        is:inline
+        type="text/partytown"
+      />
+    </>
   ) : null
 }

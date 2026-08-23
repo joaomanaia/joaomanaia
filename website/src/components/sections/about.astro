@@ -1,31 +1,38 @@
 ---
+import { useTranslations, getLocaleFromUrl, type Locale } from "@/i18n"
+
+interface Props {
+  locale?: Locale
+}
+
+const { locale = getLocaleFromUrl(Astro.url) } = Astro.props
+const t = useTranslations(locale)
+
 const stack = [
-  { label: "Android", detail: "Kotlin · Jetpack Compose" },
-  { label: "Frontend", detail: "React · Astro · TypeScript" },
-  { label: "Backend", detail: "Node.js · REST · Supabase" },
-  { label: "Tooling", detail: "Git · Docker · CI/CD" },
+  { label: t("about.stack.android"), detail: "Kotlin · Jetpack Compose" },
+  { label: t("about.stack.frontend"), detail: "React · Astro · TypeScript" },
+  { label: t("about.stack.backend"), detail: "Node.js · REST · Supabase" },
+  { label: t("about.stack.tooling"), detail: "Git · Docker · CI/CD" },
 ]
 ---
 
 <section id="about">
   <div class="wrapper border-border border-b py-3.5">
-    <span class="mono-label">about</span>
+    <span class="mono-label">{t("about.label")}</span>
   </div>
 
   <div class="wrapper divide-border grid grid-cols-1 border-b pr-0 md:grid-cols-2 md:divide-x">
     <div class="flex flex-col gap-5 py-12 md:py-16 md:pr-10">
-      <h2 class="text-foreground text-3xl leading-tight font-semibold tracking-tight md:text-4xl">
-        Based in Portugal,<br />building for the web.
-      </h2>
+      <h2
+        class="text-foreground text-3xl leading-tight font-semibold tracking-tight md:text-4xl"
+        set:html={t("about.heading")}
+      />
       <div class="text-muted-foreground max-w-md space-y-4 text-base leading-relaxed">
         <p>
-          Passionate about creating apps that feel fast and intentional. I spend most of my time in
-          Kotlin with Jetpack Compose on Android, and reach for React or Astro when building for the
-          web.
+          {t("about.bio1")}
         </p>
         <p>
-          I enjoy the full picture, from architecture decisions down to the small UI details that
-          make something feel right to use.
+          {t("about.bio2")}
         </p>
       </div>
     </div>

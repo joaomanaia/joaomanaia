@@ -2,13 +2,24 @@
 import { buttonVariants } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { ModeToggle } from "./ModeToggle"
+import { LanguageToggle } from "./LanguageToggle"
+import { useTranslations, getLocaleFromUrl, getLocalizedPath, type Locale } from "@/i18n"
+
+interface Props {
+  locale?: Locale
+}
+
+const { locale = getLocaleFromUrl(Astro.url) } = Astro.props
+const t = useTranslations(locale)
 
 const navLinks = [
-  { id: "home", href: "/#home", label: "Home" },
-  { id: "about", href: "/#about", label: "About" },
-  { id: "timeline", href: "/#timeline", label: "Timeline" },
-  { id: "projects", href: "/#projects", label: "Projects" },
+  { id: "home", href: getLocalizedPath("/#home", locale), label: t("nav.home") },
+  { id: "about", href: getLocalizedPath("/#about", locale), label: t("nav.about") },
+  { id: "timeline", href: getLocalizedPath("/#timeline", locale), label: t("nav.timeline") },
+  { id: "projects", href: getLocalizedPath("/#projects", locale), label: t("nav.projects") },
 ]
+
+const homeHref = getLocalizedPath("/", locale)
 ---
 
 <header class="sticky top-0 z-50">
@@ -16,7 +27,7 @@ const navLinks = [
     class="wrapper bg-background flex h-14 items-center justify-between border-r border-b border-l"
   >
     <a
-      href="/"
+      href={homeHref}
       class={cn(
         buttonVariants({ variant: "ghost" }),
         "font-mono text-sm font-semibold tracking-tight transition-opacity hover:bg-transparent hover:text-foreground/80"
@@ -46,7 +57,8 @@ const navLinks = [
     </ul>
 
     <div class="flex items-center gap-2">
-      <ModeToggle client:load />
+      <LanguageToggle client:load currentLocale={locale} />
+      <ModeToggle client:load locale={locale} />
     </div>
   </nav>
 </header>
@@ -60,10 +72,13 @@ const navLinks = [
     })
   }
 
+  const isHomePage = (pathname: string) => pathname === "/" || pathname === "/en" || pathname === "/en/"
+
   const handleNavigation = (links: Element[] = getNavLinks()) => {
     const { pathname, hash } = window.location
-    if (pathname.startsWith("/projects/")) return updateActiveLink(links, "projects")
-    updateActiveLink(links, hash ? hash.slice(1) : pathname === "/" ? "home" : null)
+    if (pathname.includes("/projects")) return updateActiveLink(links, "projects")
+    if (pathname.includes("/timeline")) return updateActiveLink(links, "timeline")
+    updateActiveLink(links, hash ? hash.slice(1) : isHomePage(pathname) ? "home" : null)
   }
 
   let observer: IntersectionObserver | null = null
@@ -74,7 +89,7 @@ const navLinks = [
     observer?.disconnect()
     observer = new IntersectionObserver(
       (entries) => {
-        if (window.location.pathname !== "/") return
+        if (!isHomePage(window.location.pathname)) return
         const activeEntry = entries.find((e) => e.isIntersecting)
         if (activeEntry) updateActiveLink(links, activeEntry.target.id)
       },

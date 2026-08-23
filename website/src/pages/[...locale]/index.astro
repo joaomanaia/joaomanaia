@@ -1,0 +1,31 @@
+---
+import Hero from "@/components/sections/hero.astro"
+import About from "@/components/sections/about.astro"
+import Timeline from "@/components/sections/timeline.astro"
+import Projects from "@/components/sections/projects.astro"
+import Layout from "@/layouts/Layout.astro"
+import { useTranslations, locales, defaultLocale, type Locale } from "@/i18n"
+
+export function getStaticPaths() {
+  return locales.map((locale) => ({
+    params: { locale: locale === defaultLocale ? undefined : locale },
+    props: { locale },
+  }))
+}
+
+interface Props {
+  locale: Locale
+}
+
+const { locale } = Astro.props
+const t = useTranslations(locale)
+---
+
+<Layout locale={locale} title={t("meta.homeTitle")} description={t("meta.homeDescription")}>
+  <main class="relative min-h-screen">
+    <Hero locale={locale} />
+    <About locale={locale} />
+    <Timeline locale={locale} />
+    <Projects locale={locale} />
+  </main>
+</Layout>

@@ -1,50 +1,65 @@
 ---
 import { getCollection } from "astro:content"
+import { filterTimelineByLocale, sortTimeline, extractSlug } from "@/lib/content"
+import { useTranslations, getLocaleFromUrl, getLocalizedPath, type Locale } from "@/i18n"
 
-const entries = await getCollection("timeline")
-const sorted = entries.sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0))
+interface Props {
+  locale?: Locale
+}
+
+const { locale = getLocaleFromUrl(Astro.url) } = Astro.props
+const t = useTranslations(locale)
+
+const allEntries = await getCollection("timeline")
+const localeEntries = filterTimelineByLocale(allEntries, locale)
+const sorted = sortTimeline(localeEntries)
 ---
 
 <section id="timeline">
   <div class="wrapper border-border border-b py-3.5">
-    <span class="mono-label">timeline</span>
+    <span class="mono-label">{t("timeline.label")}</span>
   </div>
 
   <div class="wrapper border-border border-b py-10 md:py-14">
     <h2
       class="text-foreground max-w-xl text-3xl leading-tight font-semibold tracking-tight md:text-4xl"
     >
-      Academic &amp; Educational Background
+      {t("timeline.heading")}
     </h2>
     <p class="text-muted-foreground mt-3 max-w-md text-base">
-      Milestones that shaped how I think about software.
+      {t("timeline.description")}
     </p>
   </div>
 
   <div class="divide-border divide-y">
     {
-      sorted.map((item) => (
-        <div class="wrapper grid grid-cols-1 gap-4 py-10 last:border-b md:grid-cols-[12rem_1fr] md:py-12">
-          <span class="text-muted-foreground pt-1 font-mono text-[11px] tracking-widest uppercase">
-            {item.data.period}
-          </span>
-          <div class="flex flex-col gap-2">
-            <a href={`/timeline/${item.id}`} class="group/title inline-block w-fit">
-              <h3 class="text-foreground decoration-border text-xl font-semibold tracking-tight underline-offset-4 group-hover/title:underline">
-                {item.data.title}
-              </h3>
-            </a>
-            {item.data.subtitle && (
-              <p class="text-muted-foreground font-mono text-[11px] tracking-wide">
-                {item.data.subtitle}
+      sorted.map((item) => {
+        const slug = extractSlug(item.id)
+        const timelineHref = getLocalizedPath(`/timeline/${slug}`, locale)
+
+        return (
+          <div class="wrapper grid grid-cols-1 gap-4 py-10 last:border-b md:grid-cols-[12rem_1fr] md:py-12">
+            <span class="text-muted-foreground pt-1 font-mono text-[11px] tracking-widest uppercase">
+              {item.data.period}
+            </span>
+            <div class="flex flex-col gap-2">
+              <a href={timelineHref} class="group/title inline-block w-fit">
+                <h3 class="text-foreground decoration-border text-xl font-semibold tracking-tight underline-offset-4 group-hover/title:underline">
+                  {item.data.title}
+                </h3>
+              </a>
+              {item.data.subtitle && (
+                <p class="text-muted-foreground font-mono text-[11px] tracking-wide">
+                  {item.data.subtitle}
+                </p>
+              )}
+              <p class="text-muted-foreground mt-1 max-w-2xl text-sm leading-relaxed">
+                {item.data.description}
               </p>
-            )}
-            <p class="text-muted-foreground mt-1 max-w-2xl text-sm leading-relaxed">
-              {item.data.description}
-            </p>
+            </div>
           </div>
-        </div>
-      ))
+        )
+      })
     }
   </div>
 </section>

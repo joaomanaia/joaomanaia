@@ -2,32 +2,38 @@
 import { ExternalLinkIcon } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import type { CollectionEntry } from "astro:content"
+import { getLocalizedPath, getLocaleFromUrl, useTranslations, type Locale } from "@/i18n"
+import { extractSlug } from "@/lib/content"
 
 interface Props {
   project: CollectionEntry<"projects">
+  locale?: Locale
   index?: number
   showCategoryTag?: boolean
   maxTags?: number
 }
 
-const { project, index, showCategoryTag = false, maxTags } = Astro.props
+const { project, locale = getLocaleFromUrl(Astro.url), index, showCategoryTag = false, maxTags } = Astro.props
 
+const t = useTranslations(locale)
+const slug = extractSlug(project.id)
+const projectHref = getLocalizedPath(`/projects/${slug}`, locale)
 const tagsToDisplay = maxTags ? project.data.tags.slice(0, maxTags) : project.data.tags
 const remainingTagsCount = maxTags ? project.data.tags.length - maxTags : 0
 ---
 
 <a
-  href={`/projects/${project.id}`}
+  href={projectHref}
   class="group hover:bg-muted/40 border-border flex flex-col gap-4 p-6 transition-colors md:p-8"
 >
   <div class="flex items-center justify-between">
     <span class="mono-label">
       {
         showCategoryTag
-          ? (project.data.tags[0] ?? "project")
+          ? (project.data.tags[0] ?? t("projects.label"))
           : index !== undefined
             ? String(index + 1).padStart(2, "0")
-            : "project"
+            : t("projects.label")
       }
     </span>
     <ExternalLinkIcon className="text-muted-foreground group-hover:text-foreground size-4 transition-colors duration-150" />
