@@ -8,13 +8,6 @@ const isConfigured = websiteId
 
 {
   isConfigured ? (
-    <script
-      define:vars={{ scriptUrl, websiteId }}
-      defer
-      src={scriptUrl}
-      data-website-id={websiteId}
-      is:inline
-      type="text/partytown"
-    />
+    <script defer src={scriptUrl} data-website-id={websiteId} is:inline type="text/partytown" />
   ) : null
 }
