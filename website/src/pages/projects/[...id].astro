@@ -54,6 +54,8 @@ const relatedProjects = project.data.related ? await getEntries(project.data.rel
             target="_blank"
             rel="noopener noreferrer"
             class={cn(buttonVariants({ variant: "outlineExpressive" }))}
+            data-umami-event="outbound-link-click"
+            data-umami-event-url={link.url}
           >
             <ExternalLinkIcon className="size-3.5" />
             {link.name}

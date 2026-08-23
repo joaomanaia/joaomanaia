@@ -35,6 +35,8 @@ const links = [
           target="_blank"
           rel="noopener noreferrer"
           class={buttonVariants({ variant: "outlineExpressive", size: "lg" })}
+          data-umami-event="outbound-link-click"
+          data-umami-event-url={link.url}
         >
           <Icon name={link.icon} />
           {link.name}
