@@ -120,10 +120,12 @@
     scrollbar-color: var(--color-muted-foreground) var(--color-muted);
   }
   html {
+    @apply scroll-smooth;
     scrollbar-gutter: stable;
+    scroll-padding-top: 3.5rem;
   }
   body {
-    @apply bg-background text-foreground scroll-smooth antialiased;
+    @apply bg-background text-foreground antialiased;
     font-family:
       "Inter",
       system-ui,
