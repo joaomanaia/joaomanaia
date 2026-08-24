@@ -14,15 +14,15 @@ export const ui = {
     // Hero
     "hero.title": "João Manaia",
     "hero.description":
-      "A criar aplicações Android e experiências web, focado em desempenho, arquitetura limpa e coisas que realmente funcionam.",
+      "Estudante de Engenharia do Ambiente na Universidade de Coimbra e programador de software. A criar aplicações Android e experiências web com foco em arquitetura limpa e desempenho.",
 
     // About
     "about.label": "sobre",
-    "about.heading": "Sediado em Portugal,<br />a construir para a web.",
+    "about.heading": "Sediado em Coimbra, Portugal,<br />a construir para Android e Web.",
     "about.bio1":
-      "Apaixonado por criar aplicações rápidas e intencionais. Passo a maior parte do meu tempo em Kotlin com Jetpack Compose em Android, e utilizo React ou Astro para desenvolvimento web.",
+      "A frequentar o Mestrado em Engenharia do Ambiente na Universidade de Coimbra, dedicando o meu tempo livre ao desenvolvimento de software. Crio aplicações rápidas e intencionais com Kotlin e Jetpack Compose em Android, e Astro ou React na web.",
     "about.bio2":
-      "Aprecio a visão completa, desde decisões de arquitetura até aos pequenos detalhes de interface que tornam algo agradável de usar.",
+      "Gosto de aliar o rigor analítico da engenharia à construção de software de ponta a ponta, desde a arquitetura de sistemas e dados até aos detalhes de interface que tornam uma aplicação agradável de usar.",
     "about.stack.android": "Android",
     "about.stack.frontend": "Frontend",
     "about.stack.backend": "Backend",
@@ -31,14 +31,15 @@ export const ui = {
     // Projects
     "projects.label": "projetos",
     "projects.heading": "Trabalho em Destaque",
-    "projects.description": "Projetos que construí e lancei.",
+    "projects.description": "Aplicações e ferramentas que desenvolvi e lancei.",
     "projects.allProjects": "Todos os Projetos",
     "projects.related": "projetos relacionados",
 
     // Timeline
     "timeline.label": "percurso",
     "timeline.heading": "Percurso Académico e Educacional",
-    "timeline.description": "Marcos que moldaram a forma como penso sobre software.",
+    "timeline.description":
+      "Marcos académicos na Universidade de Coimbra e evolução na programação.",
 
     // 404
     "notFound.title": "404 - Não Encontrado",
@@ -58,9 +59,9 @@ export const ui = {
     "theme.system": "Sistema",
 
     // Metadata & SEO
-    "meta.homeTitle": "João Manaia - Programador Full Stack",
+    "meta.homeTitle": "João Manaia - Engenharia do Ambiente & Programação",
     "meta.homeDescription":
-      "Programador full stack apaixonado por criar aplicações modernas. Explore os meus projetos e saiba mais sobre o meu percurso.",
+      "Estudante de Engenharia do Ambiente na Universidade de Coimbra e criador de software para Android e Web. Explore os meus projetos e percurso académico.",
     "meta.ogLocale": "pt_PT",
   },
   en: {
@@ -73,15 +74,15 @@ export const ui = {
     // Hero
     "hero.title": "João Manaia",
     "hero.description":
-      "Building Android apps and web experiences, focused on performance, clean architecture, and things that actually work.",
+      "Environmental Engineering student at the University of Coimbra and software builder. Crafting Android apps and web experiences with clean architecture and real-world performance.",
 
     // About
     "about.label": "about",
-    "about.heading": "Based in Portugal,<br />building for the web.",
+    "about.heading": "Based in Coimbra, Portugal,<br />building for Android & Web.",
     "about.bio1":
-      "Passionate about creating apps that feel fast and intentional. I spend most of my time in Kotlin with Jetpack Compose on Android, and reach for React or Astro when building for the web.",
+      "Pursuing a Master's degree in Environmental Engineering at the University of Coimbra while building software as a side hustle. I develop fast, intentional apps using Kotlin with Jetpack Compose on Android, and Astro or React for the web.",
     "about.bio2":
-      "I enjoy the full picture, from architecture decisions down to the small UI details that make something feel right to use.",
+      "I enjoy combining an engineering analytical mindset with end-to-end software craft, from system architecture and data modeling down to the interface details that make apps feel right.",
     "about.stack.android": "Android",
     "about.stack.frontend": "Frontend",
     "about.stack.backend": "Backend",
@@ -90,14 +91,15 @@ export const ui = {
     // Projects
     "projects.label": "projects",
     "projects.heading": "Featured Work",
-    "projects.description": "Things I've built and shipped.",
+    "projects.description": "Applications and tools I've built and shipped.",
     "projects.allProjects": "All Projects",
     "projects.related": "related projects",
 
     // Timeline
     "timeline.label": "timeline",
     "timeline.heading": "Academic & Educational Background",
-    "timeline.description": "Milestones that shaped how I think about software.",
+    "timeline.description":
+      "Academic milestones at the University of Coimbra and software journey.",
 
     // 404
     "notFound.title": "404 - Not Found",
@@ -117,9 +119,9 @@ export const ui = {
     "theme.system": "System",
 
     // Metadata & SEO
-    "meta.homeTitle": "João Manaia - Full Stack Developer",
+    "meta.homeTitle": "João Manaia - Environmental Engineering & Software Builder",
     "meta.homeDescription":
-      "Full stack developer passionate about building modern web applications. Explore my projects and learn more about my work.",
+      "Environmental Engineering student at the University of Coimbra and software builder crafting modern Android and web applications. Explore my projects and academic background.",
     "meta.ogLocale": "en_US",
   },
 } as const

@@ -1,15 +1,13 @@
-## Hi there I'm joaomanaia 👋
+## Hi there, I'm João Manaia 👋
 
-- 🔭 I’m currently working at NewSocial, NewQuiz and [Fega](https://www.fega.ml)
-- 🌱 I’m currently learning Kotlin and React
-- 📫 How to reach me: joaopfmanaia@gmail.com
-- ⚡ Fun fact: I like programming
+- 🎓 MSc Student in **Environmental Engineering** at **Universidade de Coimbra**
+- 💻 Building **Android** apps & modern **Web** experiences as a side hustle
+- 🛠️ Working with **Kotlin (Jetpack Compose)**, **TypeScript (React / Astro)**, and **Supabase / Node.js**
+- 📍 Based in Coimbra, Portugal
+- 📫 Reach me: joaopfmanaia@gmail.com
 
-#### Top Technologies
-[![Kotlin Badge](https://img.shields.io/badge/-kotlin-orange?style=for-the-badge&logo=kotlin&labelColor=black&logoColor=FFA500)](#) [![~Java Badge](https://img.shields.io/badge/-java-blue?style=for-the-badge&logo=java&labelColor=black&logoColor=blue)](#)
-
-#### Learning
-[![Kotlin Badge](https://img.shields.io/badge/-kotlin-orange?style=for-the-badge&logo=kotlin&labelColor=black&logoColor=FFA500)](#) [![React Badge](https://img.shields.io/badge/-React-61DBFB?style=for-the-badge&labelColor=black&logo=react&logoColor=61DBFB)](#) [![Javascript Badge](https://img.shields.io/badge/-Javascript-F0DB4F?style=for-the-badge&labelColor=black&logo=javascript&logoColor=F0DB4F)](#) [![Nodejs Badge](https://img.shields.io/badge/-Nodejs-3C873A?style=for-the-badge&labelColor=black&logo=node.js&logoColor=3C873A)](#)
+#### Technologies & Tools
+[![Kotlin Badge](https://img.shields.io/badge/-Kotlin-7F52FF?style=for-the-badge&logo=kotlin&labelColor=black&logoColor=white)](#) [![Jetpack Compose Badge](https://img.shields.io/badge/-Compose-4285F4?style=for-the-badge&logo=jetpackcompose&labelColor=black&logoColor=white)](#) [![TypeScript Badge](https://img.shields.io/badge/-TypeScript-3178C6?style=for-the-badge&logo=typescript&labelColor=black&logoColor=white)](#) [![React Badge](https://img.shields.io/badge/-React-61DAFB?style=for-the-badge&logo=react&labelColor=black&logoColor=61DAFB)](#) [![Astro Badge](https://img.shields.io/badge/-Astro-FF5D01?style=for-the-badge&logo=astro&labelColor=black&logoColor=white)](#) [![Tailwind CSS Badge](https://img.shields.io/badge/-Tailwind-06B6D4?style=for-the-badge&logo=tailwindcss&labelColor=black&logoColor=white)](#)
 
 #### Profile Visits
 ![visitors](https://visitor-badge.glitch.me/badge?page_id=joaomanaia.joaomanaia)
