@@ -3,16 +3,74 @@ import {
   locales,
   defaultLocale,
   useTranslations,
+  getLocaleFromUrl,
   getLocalizedPath,
   switchLocalePath,
   getAlternateLinks,
   stripLocaleFromUrl,
+  normalizeAnalyticsPayload,
 } from "./index"
 
 describe("i18n config & types", () => {
   it("defines pt as default locale and includes en", () => {
     expect(defaultLocale).toBe("pt")
     expect(locales).toEqual(["pt", "en"])
+  })
+})
+
+describe("getLocaleFromUrl", () => {
+  it("extracts locale from pathname, URL object, and paths with queries/hashes", () => {
+    expect(getLocaleFromUrl("/")).toBe("pt")
+    expect(getLocaleFromUrl("/projects")).toBe("pt")
+    expect(getLocaleFromUrl("/en")).toBe("en")
+    expect(getLocaleFromUrl("/en/projects")).toBe("en")
+    expect(getLocaleFromUrl("/en?search=test")).toBe("en")
+    expect(getLocaleFromUrl("/en#about")).toBe("en")
+    expect(getLocaleFromUrl(new URL("https://joaomanaia.dev/en/projects"))).toBe("en")
+    expect(getLocaleFromUrl(new URL("https://joaomanaia.dev/projects"))).toBe("pt")
+  })
+})
+
+describe("normalizeAnalyticsPayload", () => {
+  it("normalizes English URLs and attaches locale tag", () => {
+    const payload = normalizeAnalyticsPayload({
+      url: "/en/projects/fega",
+      data: { custom: 123 },
+    })
+
+    expect(payload).toEqual({
+      url: "/projects/fega",
+      data: {
+        custom: 123,
+        locale: "en",
+      },
+    })
+  })
+
+  it("normalizes English root URL and attaches locale tag", () => {
+    const payload = normalizeAnalyticsPayload({
+      url: "/en",
+    })
+
+    expect(payload).toEqual({
+      url: "/",
+      data: {
+        locale: "en",
+      },
+    })
+  })
+
+  it("retains Portuguese URL and tags locale as pt", () => {
+    const payload = normalizeAnalyticsPayload({
+      url: "/projects/fega",
+    })
+
+    expect(payload).toEqual({
+      url: "/projects/fega",
+      data: {
+        locale: "pt",
+      },
+    })
   })
 })
 

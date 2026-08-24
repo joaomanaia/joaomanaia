@@ -8,9 +8,10 @@ export function useTranslations(locale: Locale) {
 
 export function getLocaleFromUrl(url: URL | string): Locale {
   const pathname = typeof url === "string" ? url : url.pathname
-  const [, localeSegment] = pathname.split("/")
-  if (localeSegment && locales.includes(localeSegment as Locale)) {
-    return localeSegment as Locale
+  const { cleanPath } = parsePathAndSuffix(pathname)
+  const segments = cleanPath.split("/").filter(Boolean)
+  if (segments.length > 0 && locales.includes(segments[0] as Locale)) {
+    return segments[0] as Locale
   }
   return defaultLocale
 }
@@ -58,16 +59,33 @@ export function switchLocalePath(currentPath: string, targetLocale: Locale): str
 }
 
 export function stripLocaleFromUrl(url: string): string {
-  if (url === "/en" || url === "/en/") {
-    return "/"
+  const { cleanPath, suffix } = parsePathAndSuffix(url)
+  const relativePath = stripLocalePrefix(cleanPath)
+  return (relativePath === "/" ? "/" : relativePath) + suffix
+}
+
+export interface AnalyticsPayload {
+  url?: string
+  data?: Record<string, unknown>
+  [key: string]: unknown
+}
+
+export function normalizeAnalyticsPayload<T extends AnalyticsPayload>(payload: T): T {
+  if (!payload || typeof payload.url !== "string") {
+    return payload
   }
-  if (url.startsWith("/en/")) {
-    return url.slice(3)
+
+  const locale = getLocaleFromUrl(payload.url)
+  const normalizedUrl = stripLocaleFromUrl(payload.url)
+
+  return {
+    ...payload,
+    url: normalizedUrl,
+    data: {
+      ...(payload.data || {}),
+      locale,
+    },
   }
-  if (url.startsWith("/en?") || url.startsWith("/en#")) {
-    return "/" + url.slice(3)
-  }
-  return url
 }
 
 export interface AlternateLink {

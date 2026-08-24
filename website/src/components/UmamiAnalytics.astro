@@ -12,25 +12,35 @@ const isConfigured = websiteId
       <script is:inline>
         window.beforeSendHandler = function (_type, payload) {
           if (payload && typeof payload.url === "string") {
-            const isEn =
-              payload.url === "/en" ||
-              payload.url === "/en/" ||
-              payload.url.startsWith("/en/") ||
-              payload.url.startsWith("/en?") ||
-              payload.url.startsWith("/en#")
+            const rawUrl = payload.url
+            let cleanPath = rawUrl
+            let suffix = ""
+
+            const hashIndex = cleanPath.indexOf("#")
+            if (hashIndex !== -1) {
+              suffix = cleanPath.slice(hashIndex)
+              cleanPath = cleanPath.slice(0, hashIndex)
+            }
+
+            const queryIndex = cleanPath.indexOf("?")
+            if (queryIndex !== -1) {
+              suffix = cleanPath.slice(queryIndex) + suffix
+              cleanPath = cleanPath.slice(0, queryIndex)
+            }
+
+            const segments = cleanPath.split("/").filter(Boolean)
+            const isEn = segments.length > 0 && segments[0] === "en"
+            if (isEn) {
+              segments.shift()
+            }
+
+            const relativePath = segments.length > 0 ? "/" + segments.join("/") : "/"
 
             payload.data = {
               ...(payload.data || {}),
               locale: isEn ? "en" : "pt",
             }
-
-            if (payload.url === "/en" || payload.url === "/en/") {
-              payload.url = "/"
-            } else if (payload.url.startsWith("/en/")) {
-              payload.url = payload.url.slice(3)
-            } else if (payload.url.startsWith("/en?") || payload.url.startsWith("/en#")) {
-              payload.url = "/" + payload.url.slice(3)
-            }
+            payload.url = relativePath + suffix
           }
           return payload
         }

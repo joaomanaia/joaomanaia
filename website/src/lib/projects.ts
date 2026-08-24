@@ -1,1 +1,0 @@
-export { sortProjects } from "./content"
