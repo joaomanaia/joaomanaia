@@ -9,48 +9,11 @@ const isConfigured = websiteId
 {
   isConfigured ? (
     <>
-      <script is:inline>
-        window.beforeSendHandler = function (_type, payload) {
-          if (payload && typeof payload.url === "string") {
-            const rawUrl = payload.url
-            let cleanPath = rawUrl
-            let suffix = ""
-
-            const hashIndex = cleanPath.indexOf("#")
-            if (hashIndex !== -1) {
-              suffix = cleanPath.slice(hashIndex)
-              cleanPath = cleanPath.slice(0, hashIndex)
-            }
-
-            const queryIndex = cleanPath.indexOf("?")
-            if (queryIndex !== -1) {
-              suffix = cleanPath.slice(queryIndex) + suffix
-              cleanPath = cleanPath.slice(0, queryIndex)
-            }
-
-            const segments = cleanPath.split("/").filter(Boolean)
-            const isEn = segments.length > 0 && segments[0] === "en"
-            if (isEn) {
-              segments.shift()
-            }
-
-            const relativePath = segments.length > 0 ? "/" + segments.join("/") : "/"
-
-            payload.data = {
-              ...(payload.data || {}),
-              locale: isEn ? "en" : "pt",
-            }
-            payload.url = relativePath + suffix
-          }
-          return payload
-        }
-      </script>
       <script
         defer
         src={scriptUrl}
         data-website-id={websiteId}
         data-performance="true"
-        data-before-send="beforeSendHandler"
         is:inline
         type="text/partytown"
       />
