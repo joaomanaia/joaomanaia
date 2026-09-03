@@ -9,14 +9,7 @@ const isConfigured = websiteId
 {
   isConfigured ? (
     <>
-      <script
-        defer
-        src={scriptUrl}
-        data-website-id={websiteId}
-        data-performance="true"
-        is:inline
-        type="text/partytown"
-      />
+      <script defer src={scriptUrl} data-website-id={websiteId} data-performance="true" is:inline />
     </>
   ) : null
 }
