@@ -1,6 +1,6 @@
 media:
-  input: website/src/assets
-  output: /src/assets
+  input: website/public
+  output: /
 
 content:
   - name: projects
@@ -10,29 +10,22 @@ content:
     format: yaml-frontmatter
     subfolders: true
 
-    # Filename template for new entries
-    filename: "{primary}.md"
+    filename:
+      template: "{primary}.md"
+      field: create
 
-    # Per-collection operations
     operations:
       create: true
       delete: true
       rename: true
 
-    # Collection list UI
     view:
       primary: title
-      sort: createdAt
-      order: desc
-      search: "title,description,tags"
-
-    # Default values for new entries (kept minimal; Astro schema supplies defaults too)
-    default:
-      priority: 0
-      tags: []
-      featured: true
-      related: []
-      links: []
+      sort: [createdAt, priority, title]
+      search: [title, description, tags]
+      default:
+        sort: createdAt
+        order: desc
 
     fields:
       - name: title
@@ -48,27 +41,26 @@ content:
       - name: priority
         label: Priority
         type: number
-        min: 0
-        step: 1
         default: 0
-        help: Higher priority floats to the top.
+        description: Higher priority floats to the top.
+        options:
+          min: 0
 
       - name: createdAt
         label: Created at
-        type: datetime
+        type: date
         required: true
 
       - name: updatedAt
         label: Updated at
-        type: datetime
+        type: date
         required: false
 
       - name: tags
         label: Tags
-        type: list
+        type: string
+        list: true
         required: false
-        items:
-          type: string
 
       - name: featured
         label: Featured
@@ -83,34 +75,99 @@ content:
           collection: projects
           multiple: true
           search: "title,description,tags"
-          # Store the referenced entry as its slug (filename without extension)
-          value: "{name}"
+          value: "{path}"
           label: "{primary}"
 
       - name: links
         label: Links
-        type: list
+        type: object
+        list: true
         required: false
-        items:
-          type: object
-          fields:
-            - name: name
-              label: Name
-              type: string
-              required: true
-            - name: url
-              label: URL
-              type: string
-              required: true
-            - name: variant
-              label: Variant
-              type: select
-              required: false
-              default: default
-              options:
+        fields:
+          - name: name
+            label: Name
+            type: string
+            required: true
+
+          - name: url
+            label: URL
+            type: string
+            required: true
+
+          - name: variant
+            label: Variant
+            type: select
+            required: false
+            default: default
+            options:
+              values:
                 - default
                 - outline
                 - secondary
                 - ghost
                 - destructive
                 - link
+
+  - name: timeline
+    label: Timeline
+    type: collection
+    path: website/src/content/timeline
+    format: yaml-frontmatter
+    subfolders: true
+
+    filename:
+      template: "{primary}.md"
+      field: create
+
+    operations:
+      create: true
+      delete: true
+      rename: true
+
+    view:
+      primary: title
+      sort: [order, title]
+      search: [title, subtitle, period, description]
+      default:
+        sort: order
+        order: asc
+
+    fields:
+      - name: title
+        label: Title
+        type: string
+        required: true
+
+      - name: subtitle
+        label: Subtitle
+        type: string
+        required: false
+
+      - name: period
+        label: Period
+        type: string
+        required: true
+
+      - name: order
+        label: Order
+        type: number
+        default: 0
+        required: true
+        options:
+          min: 0
+
+      - name: description
+        label: Description
+        type: text
+        required: true
+
+      - name: projects
+        label: Projects
+        type: reference
+        required: false
+        options:
+          collection: projects
+          multiple: true
+          search: "title,description,tags"
+          value: "{path}"
+          label: "{primary}"
