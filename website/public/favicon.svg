@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <style>
+    rect.bg { fill: #09090b; }
+    text.monogram { fill: #fafafa; }
+    @media (prefers-color-scheme: light) {
+      rect.bg { fill: #ffffff; }
+      text.monogram { fill: #09090b; }
+      rect.border { stroke: #e4e4e7; }
+    }
+  </style>
+  <rect width="32" height="32" rx="7" class="bg" />
+  <rect x="0.5" y="0.5" width="31" height="31" rx="6.5" fill="none" stroke="#27272a" stroke-width="1" class="border" />
+  <text x="16" y="21" text-anchor="middle" class="monogram" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="14" font-weight="700" letter-spacing="-0.05em">JM</text>
+</svg>
