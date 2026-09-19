@@ -3,14 +3,17 @@ import { SEO } from "astro-seo"
 import Header from "@/components/header.astro"
 import VerticalDivider from "@/components/vertical-divider.astro"
 import UmamiAnalytics from "@/components/UmamiAnalytics.astro"
+import JsonLd from "@/components/JsonLd.astro"
 import "../styles/global.css"
 import Footer from "@/components/footer.astro"
 import { getAlternateLinks, getLocaleFromUrl, type Locale } from "@/i18n"
+import { getHomeGraph } from "@/lib/schema"
 
 interface Props {
   title?: string
   description?: string
   locale?: Locale
+  schema?: Record<string, unknown>
   openGraph?: {
     basic: {
       title: string
@@ -35,15 +38,36 @@ interface Props {
   }
 }
 
-const { title = "João Manaia", description, openGraph, twitter, locale } = Astro.props as Props
+const { title = "João Manaia", description, openGraph, twitter, locale, schema } = Astro.props as Props
 
 const currentLocale = locale ?? getLocaleFromUrl(Astro.url)
-const siteUrl = Astro.site?.toString() ?? "https://joaomanaia.dev"
+const siteUrl = (Astro.site?.toString() ?? "https://joaomanaia.dev").replace(/\/$/, "")
 const canonicalUrl = new URL(Astro.url.pathname, siteUrl)
   .toString()
   .replace(/\/$/, Astro.url.pathname === "/" ? "/" : "")
 const alternateLinks = getAlternateLinks(Astro.url.pathname, siteUrl)
 const defaultOgLocale = currentLocale === "pt" ? "pt_PT" : "en_US"
+
+const formattedTitle = title.includes("João Manaia") ? title : `${title} | João Manaia`
+const defaultOgImage = `${siteUrl}/og.png`
+
+const isHome =
+  canonicalUrl === siteUrl ||
+  canonicalUrl === `${siteUrl}/` ||
+  canonicalUrl === `${siteUrl}/en` ||
+  canonicalUrl === `${siteUrl}/en/`
+
+const resolvedSchema =
+  schema ??
+  (isHome
+    ? getHomeGraph({
+        currentUrl: canonicalUrl,
+        siteUrl,
+        title: formattedTitle,
+        description,
+        locale: currentLocale,
+      })
+    : undefined)
 ---
 
 <!doctype html>
@@ -53,14 +77,14 @@ const defaultOgLocale = currentLocale === "pt" ? "pt_PT" : "en_US"
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <SEO
-      title={title}
+      title={formattedTitle}
       description={description}
       canonical={canonicalUrl}
       openGraph={{
         basic: {
-          title: openGraph?.basic?.title ?? title,
+          title: openGraph?.basic?.title ?? formattedTitle,
           type: openGraph?.basic?.type ?? "website",
-          image: openGraph?.basic?.image ?? `${siteUrl}/favicon.svg`,
+          image: openGraph?.basic?.image ?? defaultOgImage,
           url: openGraph?.basic?.url ?? canonicalUrl,
         },
         optional: {
@@ -69,7 +93,15 @@ const defaultOgLocale = currentLocale === "pt" ? "pt_PT" : "en_US"
           locale: openGraph?.optional?.locale ?? defaultOgLocale,
         },
       }}
-      twitter={twitter}
+      twitter={{
+        card: twitter?.card ?? "summary_large_image",
+        site: twitter?.site,
+        creator: twitter?.creator ?? "@joaomanaia",
+        title: twitter?.title ?? formattedTitle,
+        description: twitter?.description ?? description,
+        image: twitter?.image ?? defaultOgImage,
+        imageAlt: twitter?.imageAlt ?? "João Manaia",
+      }}
       extend={{
         link: alternateLinks.map((alt) => ({
           rel: alt.rel,
@@ -78,6 +110,7 @@ const defaultOgLocale = currentLocale === "pt" ? "pt_PT" : "en_US"
         })),
       }}
     />
+    {resolvedSchema && <JsonLd schema={resolvedSchema} />}
     <UmamiAnalytics />
   </head>
   <body>

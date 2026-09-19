@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
 import ProjectCard from "@/components/ProjectCard.astro"
 import { useTranslations, type Locale, defaultLocale } from "@/i18n"
+import { getProjectSchema } from "@/lib/schema"
 
 export async function getStaticPaths() {
   const projects = await getCollection("projects")
@@ -27,9 +28,28 @@ const t = useTranslations(locale)
 const { Content } = await render(project)
 const hasContent = (project.body ?? "").trim().length > 0
 const relatedProjects = project.data.related ? await getEntries(project.data.related) : []
+
+const siteUrl = (Astro.site?.toString() ?? "https://joaomanaia.dev").replace(/\/$/, "")
+const currentUrl = new URL(Astro.url.pathname, siteUrl).toString()
+
+const projectSchema = getProjectSchema({
+  currentUrl,
+  siteUrl,
+  title: project.data.title,
+  description: project.data.description,
+  tags: project.data.tags,
+  links: project.data.links,
+  dateCreated: project.data.createdAt ? new Date(project.data.createdAt).toISOString().split("T")[0] : undefined,
+  locale,
+})
 ---
 
-<Layout locale={locale} title={project.data.title} description={project.data.description}>
+<Layout
+  locale={locale}
+  title={project.data.title}
+  description={project.data.description}
+  schema={projectSchema}
+>
   <div class="wrapper border-border border-b py-3.5">
     <span class="mono-label">{t("projects.label")}</span>
   </div>

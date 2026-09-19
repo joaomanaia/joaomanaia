@@ -13,6 +13,11 @@ const t = useTranslations(locale)
 const links = [
   { name: "GitHub", url: "https://github.com/joaomanaia", icon: "github" },
   {
+    name: "LinkedIn",
+    url: "https://www.linkedin.com/in/joao-manaia/",
+    icon: "linkedin",
+  },
+  {
     name: "Instagram",
     url: "https://www.instagram.com/_.manaia_/",
     icon: "instagram",
@@ -40,7 +45,7 @@ const links = [
         <a
           href={link.url}
           target="_blank"
-          rel="noopener noreferrer"
+          rel="noopener noreferrer me"
           class={buttonVariants({ variant: "outlineExpressive", size: "lg" })}
           data-umami-event="outbound-link-click"
           data-umami-event-url={link.url}
