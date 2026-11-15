@@ -14,7 +14,7 @@ export const ui = {
     // Hero
     "hero.title": "João Manaia",
     "hero.description":
-      "Estudante de Engenharia do Ambiente na Universidade de Coimbra e programador de software. A criar aplicações Android e experiências web com foco em arquitetura limpa e desempenho.",
+      "Estudante de Engenharia do Ambiente e Sustentabilidade na Universidade de Coimbra e programador de software. A criar aplicações Android e experiências web com foco em arquitetura limpa e desempenho.",
 
     // About
     "about.label": "sobre",
@@ -37,7 +37,7 @@ export const ui = {
 
     // Timeline
     "timeline.label": "percurso",
-    "timeline.heading": "Percurso Académico e Educacional",
+    "timeline.heading": "Experiência e Educação",
     "timeline.description":
       "Marcos académicos na Universidade de Coimbra e evolução na programação.",
 
@@ -97,7 +97,7 @@ export const ui = {
 
     // Timeline
     "timeline.label": "timeline",
-    "timeline.heading": "Academic & Educational Background",
+    "timeline.heading": "Experience & Education",
     "timeline.description":
       "Academic milestones at the University of Coimbra and software journey.",
 

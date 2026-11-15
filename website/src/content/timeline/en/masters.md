@@ -1,5 +1,5 @@
 ---
-title: "Master's Degree in Environmental Engineering"
+title: "Master’s Degree in Environmental Engineering and Sustainability"
 subtitle: "University of Coimbra · 2nd Year"
 period: "2025 — Present"
 order: 1

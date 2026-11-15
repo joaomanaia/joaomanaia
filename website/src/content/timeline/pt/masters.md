@@ -1,5 +1,5 @@
 ---
-title: "Mestrado em Engenharia do Ambiente"
+title: "Mestrado em Engenharia do Ambiente e Sustentabilidade"
 subtitle: "Universidade de Coimbra · 2.º Ano"
 period: "2025 — Presente"
 order: 1

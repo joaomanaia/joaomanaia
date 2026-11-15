@@ -49,6 +49,44 @@ describe("content helpers", () => {
     expect(sorted[1].id).toBe("pt/bachelors")
   })
 
+  it("sorts ongoing (Present) timeline entries before finished ones", () => {
+    const dummyTimeline: any[] = [
+      {
+        id: "en/estagio-cmc",
+        data: { order: 1, title: "Summer Internship", period: "Jun 2026 — Jul 2026" },
+      },
+      {
+        id: "en/masters",
+        data: { order: 1, title: "Masters", period: "2025 — Present" },
+      },
+      {
+        id: "en/bachelors",
+        data: { order: 2, title: "Bachelor", period: "2022 — 2025" },
+      },
+    ]
+
+    const sorted = sortTimeline(dummyTimeline)
+
+    expect(sorted.map((t) => t.id)).toEqual(["en/masters", "en/estagio-cmc", "en/bachelors"])
+  })
+
+  it("sorts ongoing (Presente) timeline entries before finished ones", () => {
+    const dummyTimeline: any[] = [
+      {
+        id: "pt/estagio-cmc",
+        data: { order: 1, title: "Estágio", period: "Jun 2026 — Jul 2026" },
+      },
+      {
+        id: "pt/masters",
+        data: { order: 1, title: "Mestrado", period: "2025 — Presente" },
+      },
+    ]
+
+    const sorted = sortTimeline(dummyTimeline)
+
+    expect(sorted.map((t) => t.id)).toEqual(["pt/masters", "pt/estagio-cmc"])
+  })
+
   it("sorts projects by priority, updatedAt/createdAt, and id", () => {
     const dummyProjects: any[] = [
       {

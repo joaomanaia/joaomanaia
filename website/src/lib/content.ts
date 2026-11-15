@@ -58,8 +58,20 @@ export function sortProjects(projects: CollectionEntry<"projects">[]): Collectio
 }
 
 /**
- * Sorts timeline entries by order.
+ * Checks if a timeline entry is ongoing (its period ends with "Present"/"Presente").
+ */
+function isOngoing(timeline: CollectionEntry<"timeline">): boolean {
+  const period = timeline.data.period?.toLowerCase() ?? ""
+  return /\b(?:present|presente)\s*$/i.test(period.trim())
+}
+
+/**
+ * Sorts timeline entries by order, with ongoing ("Present") entries first.
  */
 export function sortTimeline(timeline: CollectionEntry<"timeline">[]): CollectionEntry<"timeline">[] {
-  return [...timeline].sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0))
+  return [...timeline].sort((a, b) => {
+    const ongoingDiff = Number(isOngoing(b)) - Number(isOngoing(a))
+    if (ongoingDiff !== 0) return ongoingDiff
+    return (a.data.order ?? 0) - (b.data.order ?? 0)
+  })
 }
