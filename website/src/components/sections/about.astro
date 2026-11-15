@@ -21,8 +21,8 @@ const stack = [
     <span class="mono-label">{t("about.label")}</span>
   </div>
 
-  <div class="wrapper divide-border grid grid-cols-1 border-b pr-0 md:grid-cols-2 md:divide-x">
-    <div class="flex flex-col gap-5 py-12 md:py-16 md:pr-10">
+  <div class="wrapper divide-border grid grid-cols-1 border-b px-0 md:grid-cols-2 md:divide-x">
+    <div class="flex flex-col gap-5 px-5 py-12 md:px-10 md:py-16 md:pr-10">
       <h2
         class="text-foreground text-3xl leading-tight font-semibold tracking-tight md:text-4xl"
         set:html={t("about.heading")}
@@ -37,10 +37,10 @@ const stack = [
       </div>
     </div>
 
-    <div class="grid grow grid-cols-2 [&>*:nth-child(-n+2)]:border-b [&>*:nth-child(odd)]:border-r">
+    <div class="grid grow grid-cols-2 border-t md:border-t-0 [&>*:nth-child(-n+2)]:border-b [&>*:nth-child(odd)]:border-r">
       {
         stack.map(({ label, detail }) => (
-          <div class="flex flex-col gap-1.5 p-6">
+          <div class="flex flex-col gap-1.5 py-6 pr-6 pl-5 md:p-6">
             <span class="mono-label">{label}</span>
             <span class="text-foreground text-sm leading-snug font-medium">{detail}</span>
           </div>
